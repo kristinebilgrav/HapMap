@@ -6,12 +6,10 @@ import database
 db = database.DB('hapmap.db')
 
 
-#query ids
+#query ids and related PS with > 3 variants
 #idq = ''' SELECT DISTINCT id, PS FROM haploblock; '''
-idq = ''' SELECT id, PS, COUNT(*) FROM haploblock GROUP BY id; '''
+idq = ''' SELECT id, PS, COUNT(pos) FROM haploblock GROUP BY id, PS HAVING COUNT(pos) >=3; '''
 idquery = db.get_item(idq)
-print(idquery)
-quit()
 
 chr_of_interest = list(range(1, 23)) 
 chr_of_interest.append('X')
@@ -19,81 +17,83 @@ chr_of_interest.append('Y')
 
 master_graph = {}
 
+id_graph ={}
+id_kmers= {}
 for res in idquery:
-	id = id[0]
-	id_graph = {}
+	#print(res)
+	id = res[0]
+	if id not in id_graph:
+		id_graph[id] = {}
 
-	#query for unique PS
-	uniquePS = '''SELECT DISTINCT PS FROM haploblock WHERE id = '{}'; '''.format(id)
-	uniquePSquery = db.query(uniquePS)
+	PS = res[1]
 
-	print(uniquePSquery)
-	quit()
+	print(id, PS)
 
-	#query db for all PS with more than 3 variants
-#	PSq = '''SELECT chr, group_concat(pos ), group_concat(alt), PS FROM haploblock WHERE id = '{}' AND chr = '3' GROUP BY PS  ; '''.format(id) 
-	PSq = '''SELECT chr, pos, alt, PS FROM haploblock WHERE id = '{}' AND PS = '{}'; '''.format(id, PS)
-	PSquery = db.get_item(PSq)
+	#query the PS 
+	thePS = '''SELECT chr, pos, alt FROM haploblock WHERE id = '{}' AND PS='{}' ; '''.format(id, PS)
+	PSquery = db.query(thePS)
 
-	print(PSquery)
-	#select those with > 3 variants
-	for ps in PSquery:
+	#create kmers
+	for  i in range( 0, len(PSquery) -1):
+		
+		k0 = PSquery[i]
+		k1 = PSquery[i+1]
+
+
 		try:
-			chr = int(ps[0])
+			chr = int(k0[0])
 
 		except:
-			chr = ps[0]
-
-		print('a ps', ps)
+			chr = k0[0]
 
 		if chr not in chr_of_interest:
 			print('chr not in list', chr)
 			continue
 
-		positions = ps[1].split(',')
+		if chr not in id_graph[id]:
+			id_graph[id][chr] = {}
 
-		if len(positions) < 3:
-			continue
-		else:
-			#kmer creation
-			for i in range(0, len(positions) - 1):
-				alterations = ps[2].split(',')
+		pos1 = k0[1]
+		pos2 = k1[1]
 
-				# k1
-				nextpos = i + 1
-				pos1 = positions[i]
-				pos2 = positions[nextpos]
-				alt1 = alterations[i]
-				alt2 = alterations[nextpos]
+		alt1 = k0[2]
+		alt2 = k1[2]
 
-				kmer = [chr, pos1, alt1, chr, pos2, alt2]
-				k0 = kmer[0:3]
-				k1 = kmer[3:]
+		kmer = (chr, pos1, alt1, chr, pos2, alt2)
 
-				#search for ids with same kmer
-				kq = '''SELECT id FROM haploblock WHERE (chr = '{}' AND pos = '{}' AND alt = '{}') AND (chr = '{}' AND pos = '{}' AND alt = '{}'); '''.format(chr, pos1, alt1, chr, pos2, alt2)
-				kquery = db.query(kq)
-				#print('kq', kq)
-				#print('kquery', kquery)
+		#search for ids with same kmer
+		k0q = '''SELECT DISTINCT id FROM haploblock WHERE chr = '{}' AND pos = '{}' AND alt = '{}' '''.format(chr, pos1, alt1) #cannot combine two using UNION
+		k0query = db.get_item(k0q)
+		k1q = '''SELECT DISTINCT id FROM haploblock WHERE chr = '{}' AND pos = '{}' AND alt = '{}' '''.format(chr, pos2, alt2) 
+		k1query = db.get_item(k1q)
 
-				if len(kquery) > 0:
-					print('kq', kq)
-					print(kquery)
-					quit()
-					#add number of matches to graph
-					id_graph[kmer] 
-				
-					#append kmer/node 
-					if kmer not in id_graph:
-						id_graph[kmer] = {}
+		k0ids = np.array([i[0] for i in k0query])
+		k1ids = np.array([id[0] for id in k1query])
+		matching= np.intersect1d(k0ids, k1ids)
+
+		#add number of matches to graph
+		if len(matching) > 1:
+
+			#append kmer/node 
+			if kmer not in id_graph[id][chr]:
+				id_graph[id][chr][kmer] = {}
+				id_kmers[kmer] = matching
 	
-					#connect kmers/edges
-					for k in id_graph: 
-						if k0 in k and k != kmer:
-							id_graph[k][kmer] = 0
-						id_graph[k][kmer] += len(kquery)
+			#connect kmers/edges
+			for k in id_graph[id][chr]: 
+				if k0[1] in k and k0[2] in k and k != kmer:
+					#match ids with last kmer
+					stillmatching = np.intersect1d(id_kmers[k], id_kmers[kmer])
+					if len(stillmatching) > 1:
+						id_graph[id][chr][k][kmer] = 0
+						id_graph[id][chr][k][kmer] += len(stillmatching)
 
-	print(id_graph)
+
+		else:
+			print('no matches on', kmer)
+
+
+		print(id_graph)
 #alt:
 #chr_of_interest = np.arange(1, 23, 1))
 
