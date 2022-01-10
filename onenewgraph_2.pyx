@@ -2,9 +2,74 @@ import sys
 import json
 import database
 import time
+import numpy as np
+from sklearn.cluster import KMeans
+import os
 
+os.system('source /home/kbilgrav/anaconda3/bin/activate')
+
+def clustering(id_list):
+	cdef dict labels = {}
+	cdef list var_list = []
+	cdef str id
+	cdef str q
+	cdef list varq
+	cdef list alist
+	cdef int n_clusters
+	cdef dict label_to_cluster
+
+	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
+	for id in id_list:
+		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
+		varq = db.get_item(q)
+		if id not in labels: 
+			labels[id] = [varq[0][0], varq[1][0]]
+		alist = [varq[0][0], varq[1][0] ]
+		var_list.append( alist)
+
+	vars = np.array(var_list)
+
+	n_clusters = 2
+
+	kmeans = KMeans(n_clusters = n_clusters, init = "k-means++", n_init = 40, max_iter = 62, random_state = 42)
+	kmeans.fit(vars)
+	#print(kmeans.labels_)
+	cluster = kmeans.labels_
+	#print(labels)
+	#print(kmeans.cluster_centers_)
+
+	label_to_cluster ={} 
+	for i in labels: 
+		item_number = list(labels.keys()).index(i)
+		cluster_id = cluster[item_number]
+		label_to_cluster[i] = cluster_id
+
+		#if male 0: treat X as one PS and Y as one (ignore GT)
+
+		#if female 1: continue as normal on X, ignore Y
+	return label_to_cluster
+
+def create_kmers(chr, qres, dict):
+	for res in qres:
+		pos = res[1].split(';')
+		alt = res[2].split(';')
+		for i in range(0, len(pos) - 2 ):
+			j = i+1
+			k = j+1
+
+			kmer_a="{} {} {} {} {} {}".format(chr, pos[i], alt[i], chr , pos[j], alt[j])
+			kmer_b="{} {} {} {} {} {}".format(chr, pos[j], alt[j], chr , pos[k], alt[k])
+			if kmer_a not in dict[chr]:
+				dict[chr][kmer_a] = {}
+	
+			if kmer_b not in dict[chr][kmer_a]:
+				dict[chr][kmer_a][kmer_b] = 0
+
+			dict[chr][kmer_a][kmer_b] +=1			
+	
 #connect db
 def main(str chr):
+	
 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
 
 	start = time.time()
@@ -38,39 +103,34 @@ def main(str chr):
 	cdef list alt
 	cdef str id
 
+	if chr == 'Y' or chr == 'X':
+		genders = clustering(ids)
+	
 	for id in ids:
 		print(id)
-		for GT in ["1|0","0|1" ]:
-			qstart = time.time()
-			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format(GT , chr, id)
-			myq = db.get_item(q) #tuple
-			query2.append( time.time() - qstart)
-			for res in myq:
-	
-				pos = res[1].split(';')
-				alt = res[2].split(';')
-				loop2start = time.time()
-				for i in range(0, len(pos) - 2 ):
-					j = i+1
-					k = j+1
 
-					kmer_a="{} {} {} {} {} {}".format(chr, pos[i], alt[i], chr , pos[j], alt[j])
-					kmer_b="{} {} {} {} {} {}".format(chr, pos[j], alt[j], chr , pos[k], alt[k])
+		if chr == 'Y' and genders[id] == 0 or chr =='X' and genders[id] == 0: #male
+			print(chr, 'male')
+			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format( chr, id)
+			myq = db.get_item(q)
+
+			create_kmers(chr, myq, master_dict)
+
+		elif chr =='Y' and genders[id] == 1:
+			print('female', chr, 'skip')
+			continue
+
+		else:
+			print(chr, id)
+			for GT in ["1|0","0|1" ]:
 					
-					kmerstart = time.time()
-					if not kmer_a in master_dict[chr]:
-						master_dict[chr][kmer_a] = {}
-	
-					if not kmer_b in master_dict[chr][kmer_a]:
-						master_dict[chr][kmer_a][kmer_b] = 0
+				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format(GT , chr, id)
+				myq = db.get_item(q) #tuple
 
-					master_dict[chr][kmer_a][kmer_b] +=1			
-					kcon_time.append(time.time()-kmerstart)
+				create_kmers(chr, myq, master_dict)
 
-				loopend = time.time() - loop2start
-				loop.append(loopend)
-			
-			#print(kcon_time)
+
+
 		#print(master_dict)
 	f = open(chr + '_graph.json', 'w')
 	json.dump(master_dict, f)
