@@ -16,7 +16,7 @@ for line in open(sys.argv[1]):
 	swegen = line.strip('\n').split(';CSQ=')[-1].split('\t')[0].split('|')[-1]
 	kgp = line.strip('\n').split(';CSQ=')[-1].split('\t')[0].split('|')[-10:-5]
 	
-	threshold = 0.05
+	threshold = 0.01
 	AF = False
 	if len(swegen) > 0:
 		if float(swegen) > threshold:

@@ -10,10 +10,10 @@ f = open(sys.argv[1])
 my_vars = json.load(f)
 
 output = open(sys.argv[2], 'w')
-header = ['start', 'end', 'SVNs', 'Count']
+header = ['start', 'end', 'length', 'median', 'average']
 output.write('\t'.join(header) + '\n')
 
-
+#if want to see frq plot over how many has each kmer
 #kmercount_out = open(sys.argv[2], 'w')
 #header = ['kmer', 'indiv']
 #kmercount_out.write('\t'.join(header) + '\n')
@@ -25,10 +25,9 @@ output.write('\t'.join(header) + '\n')
 branches = set([])
 starts =set([])
 
-#save subk and see if k in them - if not save in starts
 
 for chr in my_vars:
-	#find which kmers have branches
+	#find which kmers have branches, and which are starting kmers
 	connected = set([])
 	for kmer in my_vars[chr]:
 		if len(my_vars[chr][kmer]) > 1:
@@ -46,8 +45,6 @@ for chr in my_vars:
 		#save the path continuing from this kmer, save count
 		for subk in my_vars[chr][k]:
 
-			#print(my_vars[chr][k])
-			#print(my_vars[chr][k][subk])
 
 			j=subk
 			if j in branches:

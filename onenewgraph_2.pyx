@@ -20,7 +20,7 @@ def clustering(id_list):
 
 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
 	for id in id_list:
-		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
+		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' INTERSECT ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
 		varq = db.get_item(q)
 		if id not in labels: 
 			labels[id] = [varq[0][0], varq[1][0]]
