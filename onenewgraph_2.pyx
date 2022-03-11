@@ -6,6 +6,8 @@ import numpy as np
 from sklearn.cluster import KMeans
 import os
 
+# distutils: language=c++
+
 os.system('source /home/kbilgrav/anaconda3/bin/activate')
 
 def clustering(id_list):
@@ -20,8 +22,8 @@ def clustering(id_list):
 
 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
 	for id in id_list:
-		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' INTERSECT ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
-		varq = db.get_item(q)
+		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
+		varq = db.get_item(q) #tuple with number of variants on Y and X
 		if id not in labels: 
 			labels[id] = [varq[0][0], varq[1][0]]
 		alist = [varq[0][0], varq[1][0] ]
@@ -33,10 +35,7 @@ def clustering(id_list):
 
 	kmeans = KMeans(n_clusters = n_clusters, init = "k-means++", n_init = 40, max_iter = 62, random_state = 42)
 	kmeans.fit(vars)
-	#print(kmeans.labels_)
 	cluster = kmeans.labels_
-	#print(labels)
-	#print(kmeans.cluster_centers_)
 
 	label_to_cluster ={} 
 	for i in labels: 
@@ -47,18 +46,26 @@ def clustering(id_list):
 		#if male 0: treat X as one PS and Y as one (ignore GT)
 
 		#if female 1: continue as normal on X, ignore Y
+
 	return label_to_cluster
 
 def create_kmers(chr, qres, dict):
 	for res in qres:
 		pos = res[1].split(';')
 		alt = res[2].split(';')
-		for i in range(0, len(pos) - 2 ):
+
+		my_snps = {}
+		for s in range(0, len(pos)):
+			my_snps[pos[s]] = alt[s]
+
+		sorted_snps = sorted(my_snps.items())
+		for i in range(0, len(sorted_snps) -2):
+
 			j = i+1
 			k = j+1
 
-			kmer_a="{} {} {} {} {} {}".format(chr, pos[i], alt[i], chr , pos[j], alt[j])
-			kmer_b="{} {} {} {} {} {}".format(chr, pos[j], alt[j], chr , pos[k], alt[k])
+			kmer_a="{} {} {} {} {} {}".format(chr, sorted_snps[i][0], sorted_snps[i][1], chr ,sorted_snps[j][0], sorted_snps[j][1])
+			kmer_b="{} {} {} {} {} {}".format(chr, sorted_snps[j][0], sorted_snps[j][1], chr , sorted_snps[k][0], sorted_snps[k][1])
 			if kmer_a not in dict[chr]:
 				dict[chr][kmer_a] = {}
 	
@@ -111,7 +118,8 @@ def main(str chr):
 
 		if chr == 'Y' and genders[id] == 0 or chr =='X' and genders[id] == 0: #male
 			print(chr, 'male')
-			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format( chr, id)
+			#order by asc not working
+			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC; '''.format( chr, id)
 			myq = db.get_item(q)
 
 			create_kmers(chr, myq, master_dict)
@@ -124,14 +132,13 @@ def main(str chr):
 			print(chr, id)
 			for GT in ["1|0","0|1" ]:
 					
-				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format(GT , chr, id)
+				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC;  '''.format(GT , chr, id)
 				myq = db.get_item(q) #tuple
 
 				create_kmers(chr, myq, master_dict)
 
 
 
-		#print(master_dict)
 	f = open(chr + '_graph.json', 'w')
 	json.dump(master_dict, f)
 	f.close()

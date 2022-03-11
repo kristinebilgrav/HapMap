@@ -3,32 +3,39 @@ import database
 
 db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
 
-chr = str(sys.argv[1])
-q = '''SELECT pos, alt FROM haploblock WHERE chr = '{}'  '''.format(chr)
-SVq = db.get_item(q)
 
-SV_dict = {}
-SV_dict[chr] = {}
-for res in SVq:
-	SV = '''{} {}'''.format(res[0], res[1])
-	if SV not in SV_dict[chr]:
-		SV_dict[chr][SV] = 0
-	SV_dict[chr][SV] += 1
+chr_of_interest = list(range(1, 23))
+chr_of_interest.append('X')
+chr_of_interest.append('Y')
+
+for chr in chr_of_interest:
+	chr = str(chr)
+	q = '''SELECT pos, alt FROM haploblock WHERE chr = '{}'  '''.format(chr)
+	SNPq = db.get_item(q)
+
+	SNP_dict = {}
+	SNP_dict[chr] = {}
+	for res in SNPq:
+		SNP = '''{} {}'''.format(res[0], res[1])
+		if SNP not in SNP_dict[chr]:
+			SNP_dict[chr][SNP] = 0
+		SNP_dict[chr][SNP] += 1
 
 keepvars= []
-for chr in SV_dict:
-	for sv in SV_dict[chr]:
-		if SV_dict[chr][sv] < 5:
+for chr in SNP_dict:
+	for snp in SNP_dict[chr]:
+		if SNP_dict[chr][snp] < 5:
 			continue
 		else:
-			sv = sv.split()
-			keep = '''SELECT * FROM haploblock WHERE chr = '{}' AND pos = '{}' AND alt= '{}' '''.format(chr, sv[0], sv[1])
+			snp = snp.split() 
+			keep = '''SELECT * FROM haploblock WHERE chr = '{}' AND pos = '{}' AND alt= '{}' '''.format(chr, snp[0], snp[1])
 			keepq = db.get_item(keep)
 			for k in keepq:
 				keepvars.append(k)
-#print(keepvars)
+				print(keepvars)
+				quit()
 
-#insert into table
+	#insert into table
 
 #create table
 tables = db.search_table()

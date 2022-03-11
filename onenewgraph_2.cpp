@@ -1161,6 +1161,9 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
     const char* function_name);
 
+/* py_dict_items.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyDict_Items(PyObject* d);
+
 /* PyIntBinop.proto */
 #if !CYTHON_COMPILING_IN_PYPY
 static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
@@ -1346,6 +1349,7 @@ static const char __pyx_k_i[] = "i";
 static const char __pyx_k_j[] = "j";
 static const char __pyx_k_k[] = "k";
 static const char __pyx_k_q[] = "q";
+static const char __pyx_k_s[] = "s";
 static const char __pyx_k_w[] = "w";
 static const char __pyx_k_DB[] = "DB";
 static const char __pyx_k_GT[] = "GT";
@@ -1353,6 +1357,7 @@ static const char __pyx_k__2[] = "{} {} {} {} {} {}";
 static const char __pyx_k_db[] = "db";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
+static const char __pyx_k_os[] = "os";
 static const char __pyx_k_0_1[] = "0|1";
 static const char __pyx_k_1_0[] = "1|0";
 static const char __pyx_k_alt[] = "alt";
@@ -1387,6 +1392,7 @@ static const char __pyx_k_alist[] = "alist";
 static const char __pyx_k_array[] = "array";
 static const char __pyx_k_close[] = "close";
 static const char __pyx_k_index[] = "index";
+static const char __pyx_k_items[] = "items";
 static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_print[] = "print";
 static const char __pyx_k_range[] = "range";
@@ -1403,10 +1409,12 @@ static const char __pyx_k_labels[] = "labels_";
 static const char __pyx_k_main_2[] = "main";
 static const char __pyx_k_n_init[] = "n_init";
 static const char __pyx_k_query2[] = "query2";
+static const char __pyx_k_system[] = "system";
 static const char __pyx_k_cluster[] = "cluster";
 static const char __pyx_k_genders[] = "genders";
 static const char __pyx_k_id_list[] = "id_list";
 static const char __pyx_k_k_means[] = "k-means++";
+static const char __pyx_k_my_snps[] = "my_snps";
 static const char __pyx_k_database[] = "database";
 static const char __pyx_k_get_item[] = "get_item";
 static const char __pyx_k_id_tuple[] = "id_tuple";
@@ -1420,6 +1428,7 @@ static const char __pyx_k_graph_json[] = "_graph.json";
 static const char __pyx_k_n_clusters[] = "n_clusters";
 static const char __pyx_k_item_number[] = "item_number";
 static const char __pyx_k_master_dict[] = "master_dict";
+static const char __pyx_k_sorted_snps[] = "sorted_snps";
 static const char __pyx_k_create_kmers[] = "create_kmers";
 static const char __pyx_k_random_state[] = "random_state";
 static const char __pyx_k_onenewgraph_2[] = "onenewgraph_2";
@@ -1430,8 +1439,9 @@ static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_SELECT_COUNT_FROM_cleanblock_WH[] = " SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  ";
 static const char __pyx_k_proj_nobackup_sens2017106_krist[] = "/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db";
 static const char __pyx_k_SELECT_DISTINCT_id_FROM_cleanblo[] = "SELECT DISTINCT id FROM cleanblock ;  ";
-static const char __pyx_k_SELECT_chr_GROUP_CONCAT_pos_GROU[] = "SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  ";
-static const char __pyx_k_SELECT_chr_GROUP_CONCAT_pos_GROU_2[] = "SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  ";
+static const char __pyx_k_SELECT_chr_GROUP_CONCAT_pos_GROU[] = "SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC; ";
+static const char __pyx_k_source_home_kbilgrav_anaconda3_b[] = "source /home/kbilgrav/anaconda3/bin/activate";
+static const char __pyx_k_SELECT_chr_GROUP_CONCAT_pos_GROU_2[] = "SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC;  ";
 static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_kp_s_0_1;
 static PyObject *__pyx_kp_s_1_0;
@@ -1478,6 +1488,7 @@ static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_item_number;
+static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_n_s_json;
 static PyObject *__pyx_n_s_k;
@@ -1496,6 +1507,7 @@ static PyObject *__pyx_n_s_main_2;
 static PyObject *__pyx_n_s_male;
 static PyObject *__pyx_n_s_master_dict;
 static PyObject *__pyx_n_s_max_iter;
+static PyObject *__pyx_n_s_my_snps;
 static PyObject *__pyx_n_s_myq;
 static PyObject *__pyx_n_s_n_clusters;
 static PyObject *__pyx_n_s_n_init;
@@ -1505,6 +1517,7 @@ static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_onenewgraph_2;
 static PyObject *__pyx_kp_s_onenewgraph_2_pyx;
 static PyObject *__pyx_n_s_open;
+static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_pos;
 static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_kp_s_proj_nobackup_sens2017106_krist;
@@ -1515,11 +1528,15 @@ static PyObject *__pyx_n_s_quit;
 static PyObject *__pyx_n_s_random_state;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_res;
+static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_skip;
 static PyObject *__pyx_n_s_sklearn_cluster;
+static PyObject *__pyx_n_s_sorted_snps;
+static PyObject *__pyx_kp_s_source_home_kbilgrav_anaconda3_b;
 static PyObject *__pyx_n_s_split;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_sys;
+static PyObject *__pyx_n_s_system;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_var_list;
@@ -1529,6 +1546,7 @@ static PyObject *__pyx_n_s_w;
 static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_id_list); /* proto */
 static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_chr, PyObject *__pyx_v_qres, PyObject *__pyx_v_dict); /* proto */
 static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_chr); /* proto */
+static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_items = {0, &__pyx_n_s_items, 0, 0, 0};
 static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_keys = {0, &__pyx_n_s_keys, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -1537,15 +1555,16 @@ static PyObject *__pyx_int_42;
 static PyObject *__pyx_int_62;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__4;
-static PyObject *__pyx_tuple__6;
-static PyObject *__pyx_tuple__8;
-static PyObject *__pyx_codeobj__5;
-static PyObject *__pyx_codeobj__7;
-static PyObject *__pyx_codeobj__9;
+static PyObject *__pyx_tuple__5;
+static PyObject *__pyx_tuple__7;
+static PyObject *__pyx_tuple__9;
+static PyObject *__pyx_codeobj__6;
+static PyObject *__pyx_codeobj__8;
+static PyObject *__pyx_codeobj__10;
 /* Late includes */
 
-/* "onenewgraph_2.pyx":8
- * from sklearn.cluster import KMeans
+/* "onenewgraph_2.pyx":13
+ * os.system('source /home/kbilgrav/anaconda3/bin/activate')
  * 
  * def clustering(id_list):             # <<<<<<<<<<<<<<
  * 	cdef dict labels = {}
@@ -1602,40 +1621,40 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("clustering", 0);
 
-  /* "onenewgraph_2.pyx":9
+  /* "onenewgraph_2.pyx":14
  * 
  * def clustering(id_list):
  * 	cdef dict labels = {}             # <<<<<<<<<<<<<<
  * 	cdef list var_list = []
  * 	cdef str id
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_labels = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":10
+  /* "onenewgraph_2.pyx":15
  * def clustering(id_list):
  * 	cdef dict labels = {}
  * 	cdef list var_list = []             # <<<<<<<<<<<<<<
  * 	cdef str id
  * 	cdef str q
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_var_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":18
+  /* "onenewgraph_2.pyx":23
  * 	cdef dict label_to_cluster
  * 
  * 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')             # <<<<<<<<<<<<<<
  * 	for id in id_list:
  * 		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_database); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_database); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DB); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DB); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -1650,43 +1669,43 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_kp_s_proj_nobackup_sens2017106_krist) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s_proj_nobackup_sens2017106_krist);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_db = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":19
+  /* "onenewgraph_2.pyx":24
  * 
  * 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
  * 	for id in id_list:             # <<<<<<<<<<<<<<
  * 		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
- * 		varq = db.get_item(q)
+ * 		varq = db.get_item(q) #tuple with number of variants on Y and X
  */
   if (likely(PyList_CheckExact(__pyx_v_id_list)) || PyTuple_CheckExact(__pyx_v_id_list)) {
     __pyx_t_1 = __pyx_v_id_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_id_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_id_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 24, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 19, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 24, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 19, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 24, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -1696,24 +1715,24 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 19, __pyx_L1_error)
+          else __PYX_ERR(0, 24, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_3);
     }
-    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 24, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_id, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "onenewgraph_2.pyx":20
+    /* "onenewgraph_2.pyx":25
  * 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
  * 	for id in id_list:
  * 		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')             # <<<<<<<<<<<<<<
- * 		varq = db.get_item(q)
+ * 		varq = db.get_item(q) #tuple with number of variants on Y and X
  * 		if id not in labels:
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_SELECT_COUNT_FROM_cleanblock_WH, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_SELECT_COUNT_FROM_cleanblock_WH, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     __pyx_t_7 = 0;
@@ -1730,7 +1749,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[5] = {__pyx_t_6, __pyx_v_id, __pyx_n_s_Y, __pyx_v_id, __pyx_n_s_X};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 4+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 4+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
@@ -1738,13 +1757,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[5] = {__pyx_t_6, __pyx_v_id, __pyx_n_s_Y, __pyx_v_id, __pyx_n_s_X};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 4+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 4+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 20, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 25, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -1761,23 +1780,23 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
       __Pyx_INCREF(__pyx_n_s_X);
       __Pyx_GIVEREF(__pyx_n_s_X);
       PyTuple_SET_ITEM(__pyx_t_8, 3+__pyx_t_7, __pyx_n_s_X);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 20, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_q, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "onenewgraph_2.pyx":21
+    /* "onenewgraph_2.pyx":26
  * 	for id in id_list:
  * 		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
- * 		varq = db.get_item(q)             # <<<<<<<<<<<<<<
+ * 		varq = db.get_item(q) #tuple with number of variants on Y and X             # <<<<<<<<<<<<<<
  * 		if id not in labels:
  * 			labels[id] = [varq[0][0], varq[1][0]]
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_db, __pyx_n_s_get_item); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_db, __pyx_n_s_get_item); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -1791,26 +1810,26 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
     }
     __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_8, __pyx_v_q) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_q);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (!(likely(PyList_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 21, __pyx_L1_error)
+    if (!(likely(PyList_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_varq, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "onenewgraph_2.pyx":22
+    /* "onenewgraph_2.pyx":27
  * 		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
- * 		varq = db.get_item(q)
+ * 		varq = db.get_item(q) #tuple with number of variants on Y and X
  * 		if id not in labels:             # <<<<<<<<<<<<<<
  * 			labels[id] = [varq[0][0], varq[1][0]]
  * 		alist = [varq[0][0], varq[1][0] ]
  */
-    __pyx_t_9 = (__Pyx_PyDict_ContainsTF(__pyx_v_id, __pyx_v_labels, Py_NE)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 22, __pyx_L1_error)
+    __pyx_t_9 = (__Pyx_PyDict_ContainsTF(__pyx_v_id, __pyx_v_labels, Py_NE)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 27, __pyx_L1_error)
     __pyx_t_10 = (__pyx_t_9 != 0);
     if (__pyx_t_10) {
 
-      /* "onenewgraph_2.pyx":23
- * 		varq = db.get_item(q)
+      /* "onenewgraph_2.pyx":28
+ * 		varq = db.get_item(q) #tuple with number of variants on Y and X
  * 		if id not in labels:
  * 			labels[id] = [varq[0][0], varq[1][0]]             # <<<<<<<<<<<<<<
  * 		alist = [varq[0][0], varq[1][0] ]
@@ -1818,23 +1837,23 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
  */
       if (unlikely(__pyx_v_varq == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 23, __pyx_L1_error)
+        __PYX_ERR(0, 28, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_varq, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_varq, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (unlikely(__pyx_v_varq == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 23, __pyx_L1_error)
+        __PYX_ERR(0, 28, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_varq, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_varq, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 23, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+      __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_2);
       PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -1842,19 +1861,19 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
       PyList_SET_ITEM(__pyx_t_3, 1, __pyx_t_8);
       __pyx_t_2 = 0;
       __pyx_t_8 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_v_labels, __pyx_v_id, __pyx_t_3) < 0)) __PYX_ERR(0, 23, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_labels, __pyx_v_id, __pyx_t_3) < 0)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "onenewgraph_2.pyx":22
+      /* "onenewgraph_2.pyx":27
  * 		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
- * 		varq = db.get_item(q)
+ * 		varq = db.get_item(q) #tuple with number of variants on Y and X
  * 		if id not in labels:             # <<<<<<<<<<<<<<
  * 			labels[id] = [varq[0][0], varq[1][0]]
  * 		alist = [varq[0][0], varq[1][0] ]
  */
     }
 
-    /* "onenewgraph_2.pyx":24
+    /* "onenewgraph_2.pyx":29
  * 		if id not in labels:
  * 			labels[id] = [varq[0][0], varq[1][0]]
  * 		alist = [varq[0][0], varq[1][0] ]             # <<<<<<<<<<<<<<
@@ -1863,23 +1882,23 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
  */
     if (unlikely(__pyx_v_varq == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 24, __pyx_L1_error)
+      __PYX_ERR(0, 29, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_varq, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_varq, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 29, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (unlikely(__pyx_v_varq == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 24, __pyx_L1_error)
+      __PYX_ERR(0, 29, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_varq, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_varq, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_8);
     PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_8);
@@ -1890,35 +1909,35 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
     __Pyx_XDECREF_SET(__pyx_v_alist, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "onenewgraph_2.pyx":25
+    /* "onenewgraph_2.pyx":30
  * 			labels[id] = [varq[0][0], varq[1][0]]
  * 		alist = [varq[0][0], varq[1][0] ]
  * 		var_list.append( alist)             # <<<<<<<<<<<<<<
  * 
  * 	vars = np.array(var_list)
  */
-    __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_var_list, __pyx_v_alist); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_var_list, __pyx_v_alist); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 30, __pyx_L1_error)
 
-    /* "onenewgraph_2.pyx":19
+    /* "onenewgraph_2.pyx":24
  * 
  * 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
  * 	for id in id_list:             # <<<<<<<<<<<<<<
  * 		q = ''' SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}' UNION ALL SELECT COUNT(*) FROM cleanblock WHERE id ='{}' AND chr='{}';  '''.format(id, 'Y', id, 'X')
- * 		varq = db.get_item(q)
+ * 		varq = db.get_item(q) #tuple with number of variants on Y and X
  */
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":27
+  /* "onenewgraph_2.pyx":32
  * 		var_list.append( alist)
  * 
  * 	vars = np.array(var_list)             # <<<<<<<<<<<<<<
  * 
  * 	n_clusters = 2
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -1933,13 +1952,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_var_list) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_var_list);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_vars = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":29
+  /* "onenewgraph_2.pyx":34
  * 	vars = np.array(var_list)
  * 
  * 	n_clusters = 2             # <<<<<<<<<<<<<<
@@ -1948,40 +1967,40 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
  */
   __pyx_v_n_clusters = 2;
 
-  /* "onenewgraph_2.pyx":31
+  /* "onenewgraph_2.pyx":36
  * 	n_clusters = 2
  * 
  * 	kmeans = KMeans(n_clusters = n_clusters, init = "k-means++", n_init = 40, max_iter = 62, random_state = 42)             # <<<<<<<<<<<<<<
  * 	kmeans.fit(vars)
- * 	#print(kmeans.labels_)
+ * 	cluster = kmeans.labels_
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_KMeans); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_KMeans); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_n_clusters); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_n_clusters); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_n_clusters, __pyx_t_3) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_n_clusters, __pyx_t_3) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_init, __pyx_kp_s_k_means) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_n_init, __pyx_int_40) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_max_iter, __pyx_int_62) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_random_state, __pyx_int_42) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_init, __pyx_kp_s_k_means) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_n_init, __pyx_int_40) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_max_iter, __pyx_int_62) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_random_state, __pyx_int_42) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_kmeans = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "onenewgraph_2.pyx":32
+  /* "onenewgraph_2.pyx":37
  * 
  * 	kmeans = KMeans(n_clusters = n_clusters, init = "k-means++", n_init = 40, max_iter = 62, random_state = 42)
  * 	kmeans.fit(vars)             # <<<<<<<<<<<<<<
- * 	#print(kmeans.labels_)
  * 	cluster = kmeans.labels_
+ * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_kmeans, __pyx_n_s_fit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_kmeans, __pyx_n_s_fit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -1995,36 +2014,36 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
   }
   __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_1, __pyx_v_vars) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_vars);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "onenewgraph_2.pyx":34
+  /* "onenewgraph_2.pyx":38
+ * 	kmeans = KMeans(n_clusters = n_clusters, init = "k-means++", n_init = 40, max_iter = 62, random_state = 42)
  * 	kmeans.fit(vars)
- * 	#print(kmeans.labels_)
  * 	cluster = kmeans.labels_             # <<<<<<<<<<<<<<
- * 	#print(labels)
- * 	#print(kmeans.cluster_centers_)
+ * 
+ * 	label_to_cluster ={}
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_kmeans, __pyx_n_s_labels); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_kmeans, __pyx_n_s_labels); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_cluster = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "onenewgraph_2.pyx":38
- * 	#print(kmeans.cluster_centers_)
+  /* "onenewgraph_2.pyx":40
+ * 	cluster = kmeans.labels_
  * 
  * 	label_to_cluster ={}             # <<<<<<<<<<<<<<
  * 	for i in labels:
  * 		item_number = list(labels.keys()).index(i)
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_label_to_cluster = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "onenewgraph_2.pyx":39
+  /* "onenewgraph_2.pyx":41
  * 
  * 	label_to_cluster ={}
  * 	for i in labels:             # <<<<<<<<<<<<<<
@@ -2032,7 +2051,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
  * 		cluster_id = cluster[item_number]
  */
   __pyx_t_4 = 0;
-  __pyx_t_2 = __Pyx_dict_iterator(__pyx_v_labels, 1, ((PyObject *)NULL), (&__pyx_t_12), (&__pyx_t_7)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_dict_iterator(__pyx_v_labels, 1, ((PyObject *)NULL), (&__pyx_t_12), (&__pyx_t_7)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __pyx_t_3 = __pyx_t_2;
@@ -2040,24 +2059,24 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
   while (1) {
     __pyx_t_13 = __Pyx_dict_iter_next(__pyx_t_3, __pyx_t_12, &__pyx_t_4, &__pyx_t_2, NULL, NULL, __pyx_t_7);
     if (unlikely(__pyx_t_13 == 0)) break;
-    if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 39, __pyx_L1_error)
+    if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "onenewgraph_2.pyx":40
+    /* "onenewgraph_2.pyx":42
  * 	label_to_cluster ={}
  * 	for i in labels:
  * 		item_number = list(labels.keys()).index(i)             # <<<<<<<<<<<<<<
  * 		cluster_id = cluster[item_number]
  * 		label_to_cluster[i] = cluster_id
  */
-    __pyx_t_1 = __Pyx_PyDict_Keys(__pyx_v_labels); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_Keys(__pyx_v_labels); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_8 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_t_8 = NULL;
@@ -2072,38 +2091,38 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
     }
     __pyx_t_2 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_8, __pyx_v_i) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_i);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_item_number, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "onenewgraph_2.pyx":41
+    /* "onenewgraph_2.pyx":43
  * 	for i in labels:
  * 		item_number = list(labels.keys()).index(i)
  * 		cluster_id = cluster[item_number]             # <<<<<<<<<<<<<<
  * 		label_to_cluster[i] = cluster_id
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_cluster, __pyx_v_item_number); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_cluster, __pyx_v_item_number); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_cluster_id, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "onenewgraph_2.pyx":42
+    /* "onenewgraph_2.pyx":44
  * 		item_number = list(labels.keys()).index(i)
  * 		cluster_id = cluster[item_number]
  * 		label_to_cluster[i] = cluster_id             # <<<<<<<<<<<<<<
  * 
  * 		#if male 0: treat X as one PS and Y as one (ignore GT)
  */
-    if (unlikely(PyDict_SetItem(__pyx_v_label_to_cluster, __pyx_v_i, __pyx_v_cluster_id) < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_label_to_cluster, __pyx_v_i, __pyx_v_cluster_id) < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "onenewgraph_2.pyx":47
- * 
+  /* "onenewgraph_2.pyx":50
  * 		#if female 1: continue as normal on X, ignore Y
+ * 
  * 	return label_to_cluster             # <<<<<<<<<<<<<<
  * 
  * def create_kmers(chr, qres, dict):
@@ -2113,8 +2132,8 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
   __pyx_r = __pyx_v_label_to_cluster;
   goto __pyx_L0;
 
-  /* "onenewgraph_2.pyx":8
- * from sklearn.cluster import KMeans
+  /* "onenewgraph_2.pyx":13
+ * os.system('source /home/kbilgrav/anaconda3/bin/activate')
  * 
  * def clustering(id_list):             # <<<<<<<<<<<<<<
  * 	cdef dict labels = {}
@@ -2150,7 +2169,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_clustering(CYTHON_UNUSED PyObject *__p
   return __pyx_r;
 }
 
-/* "onenewgraph_2.pyx":49
+/* "onenewgraph_2.pyx":52
  * 	return label_to_cluster
  * 
  * def create_kmers(chr, qres, dict):             # <<<<<<<<<<<<<<
@@ -2196,17 +2215,17 @@ static PyObject *__pyx_pw_13onenewgraph_2_3create_kmers(PyObject *__pyx_self, Py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_qres)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_kmers", 1, 3, 3, 1); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_kmers", 1, 3, 3, 1); __PYX_ERR(0, 52, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dict)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_kmers", 1, 3, 3, 2); __PYX_ERR(0, 49, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_kmers", 1, 3, 3, 2); __PYX_ERR(0, 52, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_kmers") < 0)) __PYX_ERR(0, 49, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_kmers") < 0)) __PYX_ERR(0, 52, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2221,7 +2240,7 @@ static PyObject *__pyx_pw_13onenewgraph_2_3create_kmers(PyObject *__pyx_self, Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_kmers", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 49, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_kmers", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 52, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("onenewgraph_2.create_kmers", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2238,6 +2257,9 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
   PyObject *__pyx_v_res = NULL;
   PyObject *__pyx_v_pos = NULL;
   PyObject *__pyx_v_alt = NULL;
+  PyObject *__pyx_v_my_snps = NULL;
+  Py_ssize_t __pyx_v_s;
+  PyObject *__pyx_v_sorted_snps = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_j = NULL;
   PyObject *__pyx_v_k = NULL;
@@ -2252,22 +2274,25 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   Py_ssize_t __pyx_t_7;
-  PyObject *(*__pyx_t_8)(PyObject *);
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  int __pyx_t_10;
+  PyObject *(*__pyx_t_11)(PyObject *);
   PyObject *__pyx_t_12 = NULL;
   PyObject *__pyx_t_13 = NULL;
-  int __pyx_t_14;
+  PyObject *__pyx_t_14 = NULL;
   PyObject *__pyx_t_15 = NULL;
-  int __pyx_t_16;
+  PyObject *__pyx_t_16 = NULL;
   int __pyx_t_17;
+  PyObject *__pyx_t_18 = NULL;
+  int __pyx_t_19;
+  int __pyx_t_20;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("create_kmers", 0);
 
-  /* "onenewgraph_2.pyx":50
+  /* "onenewgraph_2.pyx":53
  * 
  * def create_kmers(chr, qres, dict):
  * 	for res in qres:             # <<<<<<<<<<<<<<
@@ -2278,26 +2303,26 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
     __pyx_t_1 = __pyx_v_qres; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_qres); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_qres); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -2307,7 +2332,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 50, __pyx_L1_error)
+          else __PYX_ERR(0, 53, __pyx_L1_error)
         }
         break;
       }
@@ -2316,16 +2341,16 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
     __Pyx_XDECREF_SET(__pyx_v_res, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "onenewgraph_2.pyx":51
+    /* "onenewgraph_2.pyx":54
  * def create_kmers(chr, qres, dict):
  * 	for res in qres:
  * 		pos = res[1].split(';')             # <<<<<<<<<<<<<<
  * 		alt = res[2].split(';')
- * 		for i in range(0, len(pos) - 2 ):
+ * 
  */
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_res, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_res, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_split); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_split); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -2340,22 +2365,22 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
     }
     __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_5, __pyx_kp_s_) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_pos, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "onenewgraph_2.pyx":52
+    /* "onenewgraph_2.pyx":55
  * 	for res in qres:
  * 		pos = res[1].split(';')
  * 		alt = res[2].split(';')             # <<<<<<<<<<<<<<
- * 		for i in range(0, len(pos) - 2 ):
- * 			j = i+1
+ * 
+ * 		my_snps = {}
  */
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_res, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_res, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_split); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_split); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -2370,68 +2395,130 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
     }
     __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_kp_s_) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_kp_s_);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF_SET(__pyx_v_alt, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "onenewgraph_2.pyx":53
- * 		pos = res[1].split(';')
+    /* "onenewgraph_2.pyx":57
  * 		alt = res[2].split(';')
- * 		for i in range(0, len(pos) - 2 ):             # <<<<<<<<<<<<<<
- * 			j = i+1
- * 			k = j+1
+ * 
+ * 		my_snps = {}             # <<<<<<<<<<<<<<
+ * 		for s in range(0, len(pos)):
+ * 			my_snps[pos[s]] = alt[s]
  */
-    __pyx_t_7 = PyObject_Length(__pyx_v_pos); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 53, __pyx_L1_error)
-    __pyx_t_4 = PyInt_FromSsize_t((__pyx_t_7 - 2)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_my_snps, ((PyObject*)__pyx_t_4));
+    __pyx_t_4 = 0;
+
+    /* "onenewgraph_2.pyx":58
+ * 
+ * 		my_snps = {}
+ * 		for s in range(0, len(pos)):             # <<<<<<<<<<<<<<
+ * 			my_snps[pos[s]] = alt[s]
+ * 
+ */
+    __pyx_t_7 = PyObject_Length(__pyx_v_pos); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_8 = __pyx_t_7;
+    for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+      __pyx_v_s = __pyx_t_9;
+
+      /* "onenewgraph_2.pyx":59
+ * 		my_snps = {}
+ * 		for s in range(0, len(pos)):
+ * 			my_snps[pos[s]] = alt[s]             # <<<<<<<<<<<<<<
+ * 
+ * 		sorted_snps = sorted(my_snps.items())
+ */
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_alt, __pyx_v_s, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_pos, __pyx_v_s, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (unlikely(PyDict_SetItem(__pyx_v_my_snps, __pyx_t_5, __pyx_t_4) < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    }
+
+    /* "onenewgraph_2.pyx":61
+ * 			my_snps[pos[s]] = alt[s]
+ * 
+ * 		sorted_snps = sorted(my_snps.items())             # <<<<<<<<<<<<<<
+ * 		for i in range(0, len(sorted_snps) -2):
+ * 
+ */
+    __pyx_t_5 = __Pyx_PyDict_Items(__pyx_v_my_snps); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = PySequence_List(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = ((PyObject*)__pyx_t_6);
+    __pyx_t_6 = 0;
+    __pyx_t_10 = PyList_Sort(__pyx_t_4); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 61, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_sorted_snps, ((PyObject*)__pyx_t_4));
+    __pyx_t_4 = 0;
+
+    /* "onenewgraph_2.pyx":62
+ * 
+ * 		sorted_snps = sorted(my_snps.items())
+ * 		for i in range(0, len(sorted_snps) -2):             # <<<<<<<<<<<<<<
+ * 
+ * 			j = i+1
+ */
+    if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+      __PYX_ERR(0, 62, __pyx_L1_error)
+    }
+    __pyx_t_7 = PyList_GET_SIZE(__pyx_v_sorted_snps); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 62, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t((__pyx_t_7 - 2)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_int_0);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_int_0);
     __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
-      __pyx_t_5 = __pyx_t_4; __Pyx_INCREF(__pyx_t_5); __pyx_t_7 = 0;
-      __pyx_t_8 = NULL;
+      __pyx_t_6 = __pyx_t_4; __Pyx_INCREF(__pyx_t_6); __pyx_t_7 = 0;
+      __pyx_t_11 = NULL;
     } else {
-      __pyx_t_7 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_7 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_11 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 62, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     for (;;) {
-      if (likely(!__pyx_t_8)) {
-        if (likely(PyList_CheckExact(__pyx_t_5))) {
-          if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_5)) break;
+      if (likely(!__pyx_t_11)) {
+        if (likely(PyList_CheckExact(__pyx_t_6))) {
+          if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         } else {
-          if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
+          if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         }
       } else {
-        __pyx_t_4 = __pyx_t_8(__pyx_t_5);
+        __pyx_t_4 = __pyx_t_11(__pyx_t_6);
         if (unlikely(!__pyx_t_4)) {
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 53, __pyx_L1_error)
+            else __PYX_ERR(0, 62, __pyx_L1_error)
           }
           break;
         }
@@ -2440,271 +2527,327 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
       __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "onenewgraph_2.pyx":54
- * 		alt = res[2].split(';')
- * 		for i in range(0, len(pos) - 2 ):
+      /* "onenewgraph_2.pyx":64
+ * 		for i in range(0, len(sorted_snps) -2):
+ * 
  * 			j = i+1             # <<<<<<<<<<<<<<
  * 			k = j+1
  * 
  */
-      __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "onenewgraph_2.pyx":55
- * 		for i in range(0, len(pos) - 2 ):
+      /* "onenewgraph_2.pyx":65
+ * 
  * 			j = i+1
  * 			k = j+1             # <<<<<<<<<<<<<<
  * 
- * 			kmer_a="{} {} {} {} {} {}".format(chr, pos[i], alt[i], chr , pos[j], alt[j])
+ * 			kmer_a="{} {} {} {} {} {}".format(chr, sorted_snps[i][0], sorted_snps[i][1], chr ,sorted_snps[j][0], sorted_snps[j][1])
  */
-      __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_j, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_j, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "onenewgraph_2.pyx":57
+      /* "onenewgraph_2.pyx":67
  * 			k = j+1
  * 
- * 			kmer_a="{} {} {} {} {} {}".format(chr, pos[i], alt[i], chr , pos[j], alt[j])             # <<<<<<<<<<<<<<
- * 			kmer_b="{} {} {} {} {} {}".format(chr, pos[j], alt[j], chr , pos[k], alt[k])
+ * 			kmer_a="{} {} {} {} {} {}".format(chr, sorted_snps[i][0], sorted_snps[i][1], chr ,sorted_snps[j][0], sorted_snps[j][1])             # <<<<<<<<<<<<<<
+ * 			kmer_b="{} {} {} {} {} {}".format(chr, sorted_snps[j][0], sorted_snps[j][1], chr , sorted_snps[k][0], sorted_snps[k][1])
  * 			if kmer_a not in dict[chr]:
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__2, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 57, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_v_i); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 57, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_alt, __pyx_v_i); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 57, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_v_j); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 57, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_v_alt, __pyx_v_j); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 57, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__2, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 67, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_v_sorted_snps, __pyx_v_i); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 67, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_13 = NULL;
-      __pyx_t_14 = 0;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_13)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_13);
+      __pyx_t_13 = __Pyx_GetItemInt(__pyx_t_12, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 67, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_v_sorted_snps, __pyx_v_i); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_12);
+      __pyx_t_14 = __Pyx_GetItemInt(__pyx_t_12, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 67, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_v_sorted_snps, __pyx_v_j); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_12);
+      __pyx_t_15 = __Pyx_GetItemInt(__pyx_t_12, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 67, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_v_sorted_snps, __pyx_v_j); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_12);
+      __pyx_t_16 = __Pyx_GetItemInt(__pyx_t_12, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 67, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_16);
+      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      __pyx_t_12 = NULL;
+      __pyx_t_17 = 0;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_12)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_12);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
-          __pyx_t_14 = 1;
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+          __pyx_t_17 = 1;
         }
       }
       #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_6)) {
-        PyObject *__pyx_temp[7] = {__pyx_t_13, __pyx_v_chr, __pyx_t_9, __pyx_t_10, __pyx_v_chr, __pyx_t_11, __pyx_t_12};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_14, 6+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      if (PyFunction_Check(__pyx_t_5)) {
+        PyObject *__pyx_temp[7] = {__pyx_t_12, __pyx_v_chr, __pyx_t_13, __pyx_t_14, __pyx_v_chr, __pyx_t_15, __pyx_t_16};
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_17, 6+__pyx_t_17); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-        PyObject *__pyx_temp[7] = {__pyx_t_13, __pyx_v_chr, __pyx_t_9, __pyx_t_10, __pyx_v_chr, __pyx_t_11, __pyx_t_12};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_14, 6+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+        PyObject *__pyx_temp[7] = {__pyx_t_12, __pyx_v_chr, __pyx_t_13, __pyx_t_14, __pyx_v_chr, __pyx_t_15, __pyx_t_16};
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_17, 6+__pyx_t_17); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
       } else
       #endif
       {
-        __pyx_t_15 = PyTuple_New(6+__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        if (__pyx_t_13) {
-          __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_13); __pyx_t_13 = NULL;
+        __pyx_t_18 = PyTuple_New(6+__pyx_t_17); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_18);
+        if (__pyx_t_12) {
+          __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_12); __pyx_t_12 = NULL;
         }
         __Pyx_INCREF(__pyx_v_chr);
         __Pyx_GIVEREF(__pyx_v_chr);
-        PyTuple_SET_ITEM(__pyx_t_15, 0+__pyx_t_14, __pyx_v_chr);
-        __Pyx_GIVEREF(__pyx_t_9);
-        PyTuple_SET_ITEM(__pyx_t_15, 1+__pyx_t_14, __pyx_t_9);
-        __Pyx_GIVEREF(__pyx_t_10);
-        PyTuple_SET_ITEM(__pyx_t_15, 2+__pyx_t_14, __pyx_t_10);
+        PyTuple_SET_ITEM(__pyx_t_18, 0+__pyx_t_17, __pyx_v_chr);
+        __Pyx_GIVEREF(__pyx_t_13);
+        PyTuple_SET_ITEM(__pyx_t_18, 1+__pyx_t_17, __pyx_t_13);
+        __Pyx_GIVEREF(__pyx_t_14);
+        PyTuple_SET_ITEM(__pyx_t_18, 2+__pyx_t_17, __pyx_t_14);
         __Pyx_INCREF(__pyx_v_chr);
         __Pyx_GIVEREF(__pyx_v_chr);
-        PyTuple_SET_ITEM(__pyx_t_15, 3+__pyx_t_14, __pyx_v_chr);
-        __Pyx_GIVEREF(__pyx_t_11);
-        PyTuple_SET_ITEM(__pyx_t_15, 4+__pyx_t_14, __pyx_t_11);
-        __Pyx_GIVEREF(__pyx_t_12);
-        PyTuple_SET_ITEM(__pyx_t_15, 5+__pyx_t_14, __pyx_t_12);
-        __pyx_t_9 = 0;
-        __pyx_t_10 = 0;
-        __pyx_t_11 = 0;
-        __pyx_t_12 = 0;
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_15, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
+        PyTuple_SET_ITEM(__pyx_t_18, 3+__pyx_t_17, __pyx_v_chr);
+        __Pyx_GIVEREF(__pyx_t_15);
+        PyTuple_SET_ITEM(__pyx_t_18, 4+__pyx_t_17, __pyx_t_15);
+        __Pyx_GIVEREF(__pyx_t_16);
+        PyTuple_SET_ITEM(__pyx_t_18, 5+__pyx_t_17, __pyx_t_16);
+        __pyx_t_13 = 0;
+        __pyx_t_14 = 0;
+        __pyx_t_15 = 0;
+        __pyx_t_16 = 0;
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_18, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
       }
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_XDECREF_SET(__pyx_v_kmer_a, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "onenewgraph_2.pyx":58
+      /* "onenewgraph_2.pyx":68
  * 
- * 			kmer_a="{} {} {} {} {} {}".format(chr, pos[i], alt[i], chr , pos[j], alt[j])
- * 			kmer_b="{} {} {} {} {} {}".format(chr, pos[j], alt[j], chr , pos[k], alt[k])             # <<<<<<<<<<<<<<
+ * 			kmer_a="{} {} {} {} {} {}".format(chr, sorted_snps[i][0], sorted_snps[i][1], chr ,sorted_snps[j][0], sorted_snps[j][1])
+ * 			kmer_b="{} {} {} {} {} {}".format(chr, sorted_snps[j][0], sorted_snps[j][1], chr , sorted_snps[k][0], sorted_snps[k][1])             # <<<<<<<<<<<<<<
  * 			if kmer_a not in dict[chr]:
  * 				dict[chr][kmer_a] = {}
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__2, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 58, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_15 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_v_j); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 58, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__2, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 68, __pyx_L1_error)
+      }
+      __pyx_t_18 = __Pyx_PyObject_GetItem(__pyx_v_sorted_snps, __pyx_v_j); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_18);
+      __pyx_t_16 = __Pyx_GetItemInt(__pyx_t_18, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_16);
+      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+      if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 68, __pyx_L1_error)
+      }
+      __pyx_t_18 = __Pyx_PyObject_GetItem(__pyx_v_sorted_snps, __pyx_v_j); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_18);
+      __pyx_t_15 = __Pyx_GetItemInt(__pyx_t_18, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 68, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
-      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_v_alt, __pyx_v_j); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 58, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_v_k); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 58, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_alt, __pyx_v_k); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 58, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_9 = NULL;
-      __pyx_t_14 = 0;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_9)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+      if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 68, __pyx_L1_error)
+      }
+      __pyx_t_18 = __Pyx_PyObject_GetItem(__pyx_v_sorted_snps, __pyx_v_k); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_18);
+      __pyx_t_14 = __Pyx_GetItemInt(__pyx_t_18, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+      if (unlikely(__pyx_v_sorted_snps == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 68, __pyx_L1_error)
+      }
+      __pyx_t_18 = __Pyx_PyObject_GetItem(__pyx_v_sorted_snps, __pyx_v_k); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_18);
+      __pyx_t_13 = __Pyx_GetItemInt(__pyx_t_18, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 68, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+      __pyx_t_18 = NULL;
+      __pyx_t_17 = 0;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_18 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_18)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_18);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
-          __pyx_t_14 = 1;
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+          __pyx_t_17 = 1;
         }
       }
       #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_6)) {
-        PyObject *__pyx_temp[7] = {__pyx_t_9, __pyx_v_chr, __pyx_t_15, __pyx_t_12, __pyx_v_chr, __pyx_t_11, __pyx_t_10};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_14, 6+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+      if (PyFunction_Check(__pyx_t_5)) {
+        PyObject *__pyx_temp[7] = {__pyx_t_18, __pyx_v_chr, __pyx_t_16, __pyx_t_15, __pyx_v_chr, __pyx_t_14, __pyx_t_13};
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_17, 6+__pyx_t_17); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
         __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-        PyObject *__pyx_temp[7] = {__pyx_t_9, __pyx_v_chr, __pyx_t_15, __pyx_t_12, __pyx_v_chr, __pyx_t_11, __pyx_t_10};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_14, 6+__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+        PyObject *__pyx_temp[7] = {__pyx_t_18, __pyx_v_chr, __pyx_t_16, __pyx_t_15, __pyx_v_chr, __pyx_t_14, __pyx_t_13};
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_17, 6+__pyx_t_17); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
         __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       } else
       #endif
       {
-        __pyx_t_13 = PyTuple_New(6+__pyx_t_14); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 58, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        if (__pyx_t_9) {
-          __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_9); __pyx_t_9 = NULL;
+        __pyx_t_12 = PyTuple_New(6+__pyx_t_17); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        if (__pyx_t_18) {
+          __Pyx_GIVEREF(__pyx_t_18); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_18); __pyx_t_18 = NULL;
         }
         __Pyx_INCREF(__pyx_v_chr);
         __Pyx_GIVEREF(__pyx_v_chr);
-        PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_14, __pyx_v_chr);
+        PyTuple_SET_ITEM(__pyx_t_12, 0+__pyx_t_17, __pyx_v_chr);
+        __Pyx_GIVEREF(__pyx_t_16);
+        PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_17, __pyx_t_16);
         __Pyx_GIVEREF(__pyx_t_15);
-        PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_14, __pyx_t_15);
-        __Pyx_GIVEREF(__pyx_t_12);
-        PyTuple_SET_ITEM(__pyx_t_13, 2+__pyx_t_14, __pyx_t_12);
+        PyTuple_SET_ITEM(__pyx_t_12, 2+__pyx_t_17, __pyx_t_15);
         __Pyx_INCREF(__pyx_v_chr);
         __Pyx_GIVEREF(__pyx_v_chr);
-        PyTuple_SET_ITEM(__pyx_t_13, 3+__pyx_t_14, __pyx_v_chr);
-        __Pyx_GIVEREF(__pyx_t_11);
-        PyTuple_SET_ITEM(__pyx_t_13, 4+__pyx_t_14, __pyx_t_11);
-        __Pyx_GIVEREF(__pyx_t_10);
-        PyTuple_SET_ITEM(__pyx_t_13, 5+__pyx_t_14, __pyx_t_10);
+        PyTuple_SET_ITEM(__pyx_t_12, 3+__pyx_t_17, __pyx_v_chr);
+        __Pyx_GIVEREF(__pyx_t_14);
+        PyTuple_SET_ITEM(__pyx_t_12, 4+__pyx_t_17, __pyx_t_14);
+        __Pyx_GIVEREF(__pyx_t_13);
+        PyTuple_SET_ITEM(__pyx_t_12, 5+__pyx_t_17, __pyx_t_13);
+        __pyx_t_16 = 0;
         __pyx_t_15 = 0;
-        __pyx_t_12 = 0;
-        __pyx_t_11 = 0;
-        __pyx_t_10 = 0;
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_14 = 0;
+        __pyx_t_13 = 0;
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_12, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       }
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_XDECREF_SET(__pyx_v_kmer_b, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "onenewgraph_2.pyx":59
- * 			kmer_a="{} {} {} {} {} {}".format(chr, pos[i], alt[i], chr , pos[j], alt[j])
- * 			kmer_b="{} {} {} {} {} {}".format(chr, pos[j], alt[j], chr , pos[k], alt[k])
+      /* "onenewgraph_2.pyx":69
+ * 			kmer_a="{} {} {} {} {} {}".format(chr, sorted_snps[i][0], sorted_snps[i][1], chr ,sorted_snps[j][0], sorted_snps[j][1])
+ * 			kmer_b="{} {} {} {} {} {}".format(chr, sorted_snps[j][0], sorted_snps[j][1], chr , sorted_snps[k][0], sorted_snps[k][1])
  * 			if kmer_a not in dict[chr]:             # <<<<<<<<<<<<<<
  * 				dict[chr][kmer_a] = {}
  * 
  */
-      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_16 = (__Pyx_PySequence_ContainsTF(__pyx_v_kmer_a, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __pyx_t_19 = (__Pyx_PySequence_ContainsTF(__pyx_v_kmer_a, __pyx_t_4, Py_NE)); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_17 = (__pyx_t_16 != 0);
-      if (__pyx_t_17) {
+      __pyx_t_20 = (__pyx_t_19 != 0);
+      if (__pyx_t_20) {
 
-        /* "onenewgraph_2.pyx":60
- * 			kmer_b="{} {} {} {} {} {}".format(chr, pos[j], alt[j], chr , pos[k], alt[k])
+        /* "onenewgraph_2.pyx":70
+ * 			kmer_b="{} {} {} {} {} {}".format(chr, sorted_snps[j][0], sorted_snps[j][1], chr , sorted_snps[k][0], sorted_snps[k][1])
  * 			if kmer_a not in dict[chr]:
  * 				dict[chr][kmer_a] = {}             # <<<<<<<<<<<<<<
  * 
  * 			if kmer_b not in dict[chr][kmer_a]:
  */
-        __pyx_t_4 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 60, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        if (unlikely(PyObject_SetItem(__pyx_t_6, __pyx_v_kmer_a, __pyx_t_4) < 0)) __PYX_ERR(0, 60, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 70, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        if (unlikely(PyObject_SetItem(__pyx_t_5, __pyx_v_kmer_a, __pyx_t_4) < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "onenewgraph_2.pyx":59
- * 			kmer_a="{} {} {} {} {} {}".format(chr, pos[i], alt[i], chr , pos[j], alt[j])
- * 			kmer_b="{} {} {} {} {} {}".format(chr, pos[j], alt[j], chr , pos[k], alt[k])
+        /* "onenewgraph_2.pyx":69
+ * 			kmer_a="{} {} {} {} {} {}".format(chr, sorted_snps[i][0], sorted_snps[i][1], chr ,sorted_snps[j][0], sorted_snps[j][1])
+ * 			kmer_b="{} {} {} {} {} {}".format(chr, sorted_snps[j][0], sorted_snps[j][1], chr , sorted_snps[k][0], sorted_snps[k][1])
  * 			if kmer_a not in dict[chr]:             # <<<<<<<<<<<<<<
  * 				dict[chr][kmer_a] = {}
  * 
  */
       }
 
-      /* "onenewgraph_2.pyx":62
+      /* "onenewgraph_2.pyx":72
  * 				dict[chr][kmer_a] = {}
  * 
  * 			if kmer_b not in dict[chr][kmer_a]:             # <<<<<<<<<<<<<<
  * 				dict[chr][kmer_a][kmer_b] = 0
  * 
  */
-      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_kmer_a); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_kmer_a); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_17 = (__Pyx_PySequence_ContainsTF(__pyx_v_kmer_b, __pyx_t_6, Py_NE)); if (unlikely(__pyx_t_17 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_16 = (__pyx_t_17 != 0);
-      if (__pyx_t_16) {
+      __pyx_t_20 = (__Pyx_PySequence_ContainsTF(__pyx_v_kmer_b, __pyx_t_5, Py_NE)); if (unlikely(__pyx_t_20 < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_19 = (__pyx_t_20 != 0);
+      if (__pyx_t_19) {
 
-        /* "onenewgraph_2.pyx":63
+        /* "onenewgraph_2.pyx":73
  * 
  * 			if kmer_b not in dict[chr][kmer_a]:
  * 				dict[chr][kmer_a][kmer_b] = 0             # <<<<<<<<<<<<<<
  * 
  * 			dict[chr][kmer_a][kmer_b] +=1
  */
-        __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 63, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_kmer_a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_kmer_a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_v_kmer_b, __pyx_int_0) < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_v_kmer_b, __pyx_int_0) < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "onenewgraph_2.pyx":62
+        /* "onenewgraph_2.pyx":72
  * 				dict[chr][kmer_a] = {}
  * 
  * 			if kmer_b not in dict[chr][kmer_a]:             # <<<<<<<<<<<<<<
@@ -2713,41 +2856,41 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
  */
       }
 
-      /* "onenewgraph_2.pyx":65
+      /* "onenewgraph_2.pyx":75
  * 				dict[chr][kmer_a][kmer_b] = 0
  * 
  * 			dict[chr][kmer_a][kmer_b] +=1             # <<<<<<<<<<<<<<
  * 
  * #connect db
  */
-      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_dict, __pyx_v_chr); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_kmer_a); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_kmer_a); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_INCREF(__pyx_v_kmer_b);
       __pyx_t_4 = __pyx_v_kmer_b;
-      __pyx_t_13 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 65, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 75, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_12);
+      __pyx_t_13 = __Pyx_PyInt_AddObjC(__pyx_t_12, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 75, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
-      __pyx_t_10 = __Pyx_PyInt_AddObjC(__pyx_t_13, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 65, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      if (unlikely(PyObject_SetItem(__pyx_t_5, __pyx_t_4, __pyx_t_13) < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_t_6, __pyx_t_4, __pyx_t_10) < 0)) __PYX_ERR(0, 65, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "onenewgraph_2.pyx":53
- * 		pos = res[1].split(';')
- * 		alt = res[2].split(';')
- * 		for i in range(0, len(pos) - 2 ):             # <<<<<<<<<<<<<<
+      /* "onenewgraph_2.pyx":62
+ * 
+ * 		sorted_snps = sorted(my_snps.items())
+ * 		for i in range(0, len(sorted_snps) -2):             # <<<<<<<<<<<<<<
+ * 
  * 			j = i+1
- * 			k = j+1
  */
     }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "onenewgraph_2.pyx":50
+    /* "onenewgraph_2.pyx":53
  * 
  * def create_kmers(chr, qres, dict):
  * 	for res in qres:             # <<<<<<<<<<<<<<
@@ -2757,7 +2900,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":49
+  /* "onenewgraph_2.pyx":52
  * 	return label_to_cluster
  * 
  * def create_kmers(chr, qres, dict):             # <<<<<<<<<<<<<<
@@ -2773,18 +2916,20 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_12);
   __Pyx_XDECREF(__pyx_t_13);
+  __Pyx_XDECREF(__pyx_t_14);
   __Pyx_XDECREF(__pyx_t_15);
+  __Pyx_XDECREF(__pyx_t_16);
+  __Pyx_XDECREF(__pyx_t_18);
   __Pyx_AddTraceback("onenewgraph_2.create_kmers", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_res);
   __Pyx_XDECREF(__pyx_v_pos);
   __Pyx_XDECREF(__pyx_v_alt);
+  __Pyx_XDECREF(__pyx_v_my_snps);
+  __Pyx_XDECREF(__pyx_v_sorted_snps);
   __Pyx_XDECREF(__pyx_v_i);
   __Pyx_XDECREF(__pyx_v_j);
   __Pyx_XDECREF(__pyx_v_k);
@@ -2795,7 +2940,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_2create_kmers(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "onenewgraph_2.pyx":68
+/* "onenewgraph_2.pyx":78
  * 
  * #connect db
  * def main(str chr):             # <<<<<<<<<<<<<<
@@ -2813,7 +2958,7 @@ static PyObject *__pyx_pw_13onenewgraph_2_5main(PyObject *__pyx_self, PyObject *
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("main (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_chr), (&PyString_Type), 1, "chr", 1))) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_chr), (&PyString_Type), 1, "chr", 1))) __PYX_ERR(0, 78, __pyx_L1_error)
   __pyx_r = __pyx_pf_13onenewgraph_2_4main(__pyx_self, ((PyObject*)__pyx_v_chr));
 
   /* function exit code */
@@ -2862,16 +3007,16 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("main", 0);
 
-  /* "onenewgraph_2.pyx":70
+  /* "onenewgraph_2.pyx":80
  * def main(str chr):
  * 
  * 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')             # <<<<<<<<<<<<<<
  * 
  * 	start = time.time()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_database); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_database); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DB); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DB); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -2886,22 +3031,22 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_kp_s_proj_nobackup_sens2017106_krist) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s_proj_nobackup_sens2017106_krist);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_db = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":72
+  /* "onenewgraph_2.pyx":82
  * 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
  * 
  * 	start = time.time()             # <<<<<<<<<<<<<<
  * 	cdef str idq = '''SELECT DISTINCT id FROM cleanblock ;  '''
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -2916,13 +3061,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_start = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":73
+  /* "onenewgraph_2.pyx":83
  * 
  * 	start = time.time()
  * 	cdef str idq = '''SELECT DISTINCT id FROM cleanblock ;  '''             # <<<<<<<<<<<<<<
@@ -2932,26 +3077,26 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_INCREF(__pyx_kp_s_SELECT_DISTINCT_id_FROM_cleanblo);
   __pyx_v_idq = __pyx_kp_s_SELECT_DISTINCT_id_FROM_cleanblo;
 
-  /* "onenewgraph_2.pyx":75
+  /* "onenewgraph_2.pyx":85
  * 	cdef str idq = '''SELECT DISTINCT id FROM cleanblock ;  '''
  * 
  * 	cdef list ids= []             # <<<<<<<<<<<<<<
  * 	cdef tuple id_tuple
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_ids = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "onenewgraph_2.pyx":78
+  /* "onenewgraph_2.pyx":88
  * 	cdef tuple id_tuple
  * 
  * 	for id_tuple in db.get_item(idq):             # <<<<<<<<<<<<<<
  * 		ids.append(id_tuple[0])
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_db, __pyx_n_s_get_item); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_db, __pyx_n_s_get_item); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2965,16 +3110,16 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_idq) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_idq);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -2982,17 +3127,17 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 78, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 78, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -3002,17 +3147,17 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 78, __pyx_L1_error)
+          else __PYX_ERR(0, 88, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_1);
     }
-    if (!(likely(PyTuple_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 78, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 88, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_id_tuple, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "onenewgraph_2.pyx":79
+    /* "onenewgraph_2.pyx":89
  * 
  * 	for id_tuple in db.get_item(idq):
  * 		ids.append(id_tuple[0])             # <<<<<<<<<<<<<<
@@ -3021,14 +3166,14 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
  */
     if (unlikely(__pyx_v_id_tuple == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 79, __pyx_L1_error)
+      __PYX_ERR(0, 89, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_id_tuple, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_id_tuple, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_ids, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_ids, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "onenewgraph_2.pyx":78
+    /* "onenewgraph_2.pyx":88
  * 	cdef tuple id_tuple
  * 
  * 	for id_tuple in db.get_item(idq):             # <<<<<<<<<<<<<<
@@ -3038,54 +3183,54 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":81
+  /* "onenewgraph_2.pyx":91
  * 		ids.append(id_tuple[0])
  * 
  * 	cdef dict master_dict = {}             # <<<<<<<<<<<<<<
  * 	cdef list kcon_time = []
  * 
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_master_dict = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":82
+  /* "onenewgraph_2.pyx":92
  * 
  * 	cdef dict master_dict = {}
  * 	cdef list kcon_time = []             # <<<<<<<<<<<<<<
  * 
  * 	if chr not in master_dict:
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_kcon_time = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":84
+  /* "onenewgraph_2.pyx":94
  * 	cdef list kcon_time = []
  * 
  * 	if chr not in master_dict:             # <<<<<<<<<<<<<<
  * 		master_dict[chr] = {}
  * 
  */
-  __pyx_t_7 = (__Pyx_PyDict_ContainsTF(__pyx_v_chr, __pyx_v_master_dict, Py_NE)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_7 = (__Pyx_PyDict_ContainsTF(__pyx_v_chr, __pyx_v_master_dict, Py_NE)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 94, __pyx_L1_error)
   __pyx_t_8 = (__pyx_t_7 != 0);
   if (__pyx_t_8) {
 
-    /* "onenewgraph_2.pyx":85
+    /* "onenewgraph_2.pyx":95
  * 
  * 	if chr not in master_dict:
  * 		master_dict[chr] = {}             # <<<<<<<<<<<<<<
  * 
  * 	cdef list query2 = []
  */
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely(PyDict_SetItem(__pyx_v_master_dict, __pyx_v_chr, __pyx_t_2) < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_master_dict, __pyx_v_chr, __pyx_t_2) < 0)) __PYX_ERR(0, 95, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "onenewgraph_2.pyx":84
+    /* "onenewgraph_2.pyx":94
  * 	cdef list kcon_time = []
  * 
  * 	if chr not in master_dict:             # <<<<<<<<<<<<<<
@@ -3094,58 +3239,58 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
  */
   }
 
-  /* "onenewgraph_2.pyx":87
+  /* "onenewgraph_2.pyx":97
  * 		master_dict[chr] = {}
  * 
  * 	cdef list query2 = []             # <<<<<<<<<<<<<<
  * 	cdef list loop = []
  * 
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_query2 = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":88
+  /* "onenewgraph_2.pyx":98
  * 
  * 	cdef list query2 = []
  * 	cdef list loop = []             # <<<<<<<<<<<<<<
  * 
  * 	cdef str GT
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_loop = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":103
+  /* "onenewgraph_2.pyx":113
  * 	cdef str id
  * 
  * 	if chr == 'Y' or chr == 'X':             # <<<<<<<<<<<<<<
  * 		genders = clustering(ids)
  * 
  */
-  __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_Y, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_Y, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
   __pyx_t_9 = (__pyx_t_7 != 0);
   if (!__pyx_t_9) {
   } else {
     __pyx_t_8 = __pyx_t_9;
     goto __pyx_L7_bool_binop_done;
   }
-  __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_X, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_X, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
   __pyx_t_7 = (__pyx_t_9 != 0);
   __pyx_t_8 = __pyx_t_7;
   __pyx_L7_bool_binop_done:;
   if (__pyx_t_8) {
 
-    /* "onenewgraph_2.pyx":104
+    /* "onenewgraph_2.pyx":114
  * 
  * 	if chr == 'Y' or chr == 'X':
  * 		genders = clustering(ids)             # <<<<<<<<<<<<<<
  * 
  * 	for id in ids:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_clustering); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_clustering); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -3159,13 +3304,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
     }
     __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_3, __pyx_v_ids) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_ids);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_genders = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "onenewgraph_2.pyx":103
+    /* "onenewgraph_2.pyx":113
  * 	cdef str id
  * 
  * 	if chr == 'Y' or chr == 'X':             # <<<<<<<<<<<<<<
@@ -3174,7 +3319,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
  */
   }
 
-  /* "onenewgraph_2.pyx":106
+  /* "onenewgraph_2.pyx":116
  * 		genders = clustering(ids)
  * 
  * 	for id in ids:             # <<<<<<<<<<<<<<
@@ -3185,44 +3330,44 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   for (;;) {
     if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 106, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_id, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "onenewgraph_2.pyx":107
+    /* "onenewgraph_2.pyx":117
  * 
  * 	for id in ids:
  * 		print(id)             # <<<<<<<<<<<<<<
  * 
  * 		if chr == 'Y' and genders[id] == 0 or chr =='X' and genders[id] == 0: #male
  */
-    if (__Pyx_PrintOne(0, __pyx_v_id) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
+    if (__Pyx_PrintOne(0, __pyx_v_id) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
 
-    /* "onenewgraph_2.pyx":109
+    /* "onenewgraph_2.pyx":119
  * 		print(id)
  * 
  * 		if chr == 'Y' and genders[id] == 0 or chr =='X' and genders[id] == 0: #male             # <<<<<<<<<<<<<<
  * 			print(chr, 'male')
- * 			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format( chr, id)
+ * 			#order by asc not working
  */
-    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_Y, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_Y, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
     __pyx_t_9 = (__pyx_t_7 != 0);
     if (!__pyx_t_9) {
       goto __pyx_L13_next_or;
     } else {
     }
-    if (unlikely(!__pyx_v_genders)) { __Pyx_RaiseUnboundLocalError("genders"); __PYX_ERR(0, 109, __pyx_L1_error) }
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_genders, __pyx_v_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
+    if (unlikely(!__pyx_v_genders)) { __Pyx_RaiseUnboundLocalError("genders"); __PYX_ERR(0, 119, __pyx_L1_error) }
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_genders, __pyx_v_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (!__pyx_t_9) {
     } else {
@@ -3230,33 +3375,33 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       goto __pyx_L12_bool_binop_done;
     }
     __pyx_L13_next_or:;
-    __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_X, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
+    __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_X, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
     __pyx_t_7 = (__pyx_t_9 != 0);
     if (__pyx_t_7) {
     } else {
       __pyx_t_8 = __pyx_t_7;
       goto __pyx_L12_bool_binop_done;
     }
-    if (unlikely(!__pyx_v_genders)) { __Pyx_RaiseUnboundLocalError("genders"); __PYX_ERR(0, 109, __pyx_L1_error) }
-    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_genders, __pyx_v_id); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
+    if (unlikely(!__pyx_v_genders)) { __Pyx_RaiseUnboundLocalError("genders"); __PYX_ERR(0, 119, __pyx_L1_error) }
+    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_genders, __pyx_v_id); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_8 = __pyx_t_7;
     __pyx_L12_bool_binop_done:;
     if (__pyx_t_8) {
 
-      /* "onenewgraph_2.pyx":110
+      /* "onenewgraph_2.pyx":120
  * 
  * 		if chr == 'Y' and genders[id] == 0 or chr =='X' and genders[id] == 0: #male
  * 			print(chr, 'male')             # <<<<<<<<<<<<<<
- * 			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format( chr, id)
- * 			myq = db.get_item(q)
+ * 			#order by asc not working
+ * 			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC; '''.format( chr, id)
  */
-      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_INCREF(__pyx_v_chr);
       __Pyx_GIVEREF(__pyx_v_chr);
@@ -3264,17 +3409,17 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       __Pyx_INCREF(__pyx_n_s_male);
       __Pyx_GIVEREF(__pyx_n_s_male);
       PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_male);
-      if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "onenewgraph_2.pyx":111
- * 		if chr == 'Y' and genders[id] == 0 or chr =='X' and genders[id] == 0: #male
+      /* "onenewgraph_2.pyx":122
  * 			print(chr, 'male')
- * 			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format( chr, id)             # <<<<<<<<<<<<<<
+ * 			#order by asc not working
+ * 			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC; '''.format( chr, id)             # <<<<<<<<<<<<<<
  * 			myq = db.get_item(q)
  * 
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_SELECT_chr_GROUP_CONCAT_pos_GROU, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_SELECT_chr_GROUP_CONCAT_pos_GROU, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_10 = NULL;
       __pyx_t_11 = 0;
@@ -3291,7 +3436,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_10, __pyx_v_chr, __pyx_v_id};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -3299,13 +3444,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_10, __pyx_v_chr, __pyx_v_id};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 111, __pyx_L1_error)
+        __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 122, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_12);
         if (__pyx_t_10) {
           __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -3316,7 +3461,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         __Pyx_INCREF(__pyx_v_id);
         __Pyx_GIVEREF(__pyx_v_id);
         PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_11, __pyx_v_id);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       }
@@ -3324,14 +3469,14 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       __Pyx_XDECREF_SET(__pyx_v_q, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "onenewgraph_2.pyx":112
- * 			print(chr, 'male')
- * 			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format( chr, id)
+      /* "onenewgraph_2.pyx":123
+ * 			#order by asc not working
+ * 			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC; '''.format( chr, id)
  * 			myq = db.get_item(q)             # <<<<<<<<<<<<<<
  * 
  * 			create_kmers(chr, myq, master_dict)
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_db, __pyx_n_s_get_item); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_db, __pyx_n_s_get_item); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_12 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3345,20 +3490,20 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       }
       __pyx_t_1 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_12, __pyx_v_q) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_q);
       __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_XDECREF_SET(__pyx_v_myq, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "onenewgraph_2.pyx":114
+      /* "onenewgraph_2.pyx":125
  * 			myq = db.get_item(q)
  * 
  * 			create_kmers(chr, myq, master_dict)             # <<<<<<<<<<<<<<
  * 
  * 		elif chr =='Y' and genders[id] == 1:
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_create_kmers); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_create_kmers); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 125, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_12 = NULL;
       __pyx_t_11 = 0;
@@ -3375,7 +3520,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[4] = {__pyx_t_12, __pyx_v_chr, __pyx_v_myq, __pyx_v_master_dict};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -3383,13 +3528,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[4] = {__pyx_t_12, __pyx_v_chr, __pyx_v_myq, __pyx_v_master_dict};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_10 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 114, __pyx_L1_error)
+        __pyx_t_10 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 125, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         if (__pyx_t_12) {
           __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_12); __pyx_t_12 = NULL;
@@ -3403,57 +3548,57 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         __Pyx_INCREF(__pyx_v_master_dict);
         __Pyx_GIVEREF(__pyx_v_master_dict);
         PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_11, __pyx_v_master_dict);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "onenewgraph_2.pyx":109
+      /* "onenewgraph_2.pyx":119
  * 		print(id)
  * 
  * 		if chr == 'Y' and genders[id] == 0 or chr =='X' and genders[id] == 0: #male             # <<<<<<<<<<<<<<
  * 			print(chr, 'male')
- * 			q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format( chr, id)
+ * 			#order by asc not working
  */
       goto __pyx_L11;
     }
 
-    /* "onenewgraph_2.pyx":116
+    /* "onenewgraph_2.pyx":127
  * 			create_kmers(chr, myq, master_dict)
  * 
  * 		elif chr =='Y' and genders[id] == 1:             # <<<<<<<<<<<<<<
  * 			print('female', chr, 'skip')
  * 			continue
  */
-    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_Y, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_chr, __pyx_n_s_Y, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 127, __pyx_L1_error)
     __pyx_t_9 = (__pyx_t_7 != 0);
     if (__pyx_t_9) {
     } else {
       __pyx_t_8 = __pyx_t_9;
       goto __pyx_L16_bool_binop_done;
     }
-    if (unlikely(!__pyx_v_genders)) { __Pyx_RaiseUnboundLocalError("genders"); __PYX_ERR(0, 116, __pyx_L1_error) }
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_genders, __pyx_v_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
+    if (unlikely(!__pyx_v_genders)) { __Pyx_RaiseUnboundLocalError("genders"); __PYX_ERR(0, 127, __pyx_L1_error) }
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_genders, __pyx_v_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_8 = __pyx_t_9;
     __pyx_L16_bool_binop_done:;
     if (__pyx_t_8) {
 
-      /* "onenewgraph_2.pyx":117
+      /* "onenewgraph_2.pyx":128
  * 
  * 		elif chr =='Y' and genders[id] == 1:
  * 			print('female', chr, 'skip')             # <<<<<<<<<<<<<<
  * 			continue
  * 
  */
-      __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_n_s_female);
       __Pyx_GIVEREF(__pyx_n_s_female);
@@ -3464,10 +3609,10 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       __Pyx_INCREF(__pyx_n_s_skip);
       __Pyx_GIVEREF(__pyx_n_s_skip);
       PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_n_s_skip);
-      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 128, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "onenewgraph_2.pyx":118
+      /* "onenewgraph_2.pyx":129
  * 		elif chr =='Y' and genders[id] == 1:
  * 			print('female', chr, 'skip')
  * 			continue             # <<<<<<<<<<<<<<
@@ -3476,7 +3621,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
  */
       goto __pyx_L9_continue;
 
-      /* "onenewgraph_2.pyx":116
+      /* "onenewgraph_2.pyx":127
  * 			create_kmers(chr, myq, master_dict)
  * 
  * 		elif chr =='Y' and genders[id] == 1:             # <<<<<<<<<<<<<<
@@ -3485,7 +3630,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
  */
     }
 
-    /* "onenewgraph_2.pyx":121
+    /* "onenewgraph_2.pyx":132
  * 
  * 		else:
  * 			print(chr, id)             # <<<<<<<<<<<<<<
@@ -3493,7 +3638,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
  * 
  */
     /*else*/ {
-      __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 132, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_v_chr);
       __Pyx_GIVEREF(__pyx_v_chr);
@@ -3501,36 +3646,36 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
       __Pyx_INCREF(__pyx_v_id);
       __Pyx_GIVEREF(__pyx_v_id);
       PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_id);
-      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 121, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "onenewgraph_2.pyx":122
+      /* "onenewgraph_2.pyx":133
  * 		else:
  * 			print(chr, id)
  * 			for GT in ["1|0","0|1" ]:             # <<<<<<<<<<<<<<
  * 
- * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format(GT , chr, id)
+ * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC;  '''.format(GT , chr, id)
  */
       __pyx_t_3 = __pyx_tuple__3; __Pyx_INCREF(__pyx_t_3); __pyx_t_13 = 0;
       for (;;) {
         if (__pyx_t_13 >= 2) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_13); __Pyx_INCREF(__pyx_t_1); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 122, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_13); __Pyx_INCREF(__pyx_t_1); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
         __Pyx_XDECREF_SET(__pyx_v_GT, ((PyObject*)__pyx_t_1));
         __pyx_t_1 = 0;
 
-        /* "onenewgraph_2.pyx":124
+        /* "onenewgraph_2.pyx":135
  * 			for GT in ["1|0","0|1" ]:
  * 
- * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format(GT , chr, id)             # <<<<<<<<<<<<<<
+ * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC;  '''.format(GT , chr, id)             # <<<<<<<<<<<<<<
  * 				myq = db.get_item(q) #tuple
  * 
  */
-        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_SELECT_chr_GROUP_CONCAT_pos_GROU_2, __pyx_n_s_format); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 124, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_SELECT_chr_GROUP_CONCAT_pos_GROU_2, __pyx_n_s_format); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 135, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __pyx_t_12 = NULL;
         __pyx_t_11 = 0;
@@ -3547,7 +3692,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_10)) {
           PyObject *__pyx_temp[4] = {__pyx_t_12, __pyx_v_GT, __pyx_v_chr, __pyx_v_id};
-          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_GOTREF(__pyx_t_1);
         } else
@@ -3555,13 +3700,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
           PyObject *__pyx_temp[4] = {__pyx_t_12, __pyx_v_GT, __pyx_v_chr, __pyx_v_id};
-          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_GOTREF(__pyx_t_1);
         } else
         #endif
         {
-          __pyx_t_14 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 124, __pyx_L1_error)
+          __pyx_t_14 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 135, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_14);
           if (__pyx_t_12) {
             __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_12); __pyx_t_12 = NULL;
@@ -3575,7 +3720,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
           __Pyx_INCREF(__pyx_v_id);
           __Pyx_GIVEREF(__pyx_v_id);
           PyTuple_SET_ITEM(__pyx_t_14, 2+__pyx_t_11, __pyx_v_id);
-          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         }
@@ -3583,14 +3728,14 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         __Pyx_XDECREF_SET(__pyx_v_q, __pyx_t_1);
         __pyx_t_1 = 0;
 
-        /* "onenewgraph_2.pyx":125
+        /* "onenewgraph_2.pyx":136
  * 
- * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format(GT , chr, id)
+ * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC;  '''.format(GT , chr, id)
  * 				myq = db.get_item(q) #tuple             # <<<<<<<<<<<<<<
  * 
  * 				create_kmers(chr, myq, master_dict)
  */
-        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_db, __pyx_n_s_get_item); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 125, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_db, __pyx_n_s_get_item); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 136, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __pyx_t_14 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
@@ -3604,20 +3749,20 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         }
         __pyx_t_1 = (__pyx_t_14) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_14, __pyx_v_q) : __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_v_q);
         __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_XDECREF_SET(__pyx_v_myq, __pyx_t_1);
         __pyx_t_1 = 0;
 
-        /* "onenewgraph_2.pyx":127
+        /* "onenewgraph_2.pyx":138
  * 				myq = db.get_item(q) #tuple
  * 
  * 				create_kmers(chr, myq, master_dict)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_create_kmers); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 127, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_create_kmers); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 138, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __pyx_t_14 = NULL;
         __pyx_t_11 = 0;
@@ -3634,7 +3779,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_10)) {
           PyObject *__pyx_temp[4] = {__pyx_t_14, __pyx_v_chr, __pyx_v_myq, __pyx_v_master_dict};
-          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
           __Pyx_GOTREF(__pyx_t_1);
         } else
@@ -3642,13 +3787,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
           PyObject *__pyx_temp[4] = {__pyx_t_14, __pyx_v_chr, __pyx_v_myq, __pyx_v_master_dict};
-          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
           __Pyx_GOTREF(__pyx_t_1);
         } else
         #endif
         {
-          __pyx_t_12 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 127, __pyx_L1_error)
+          __pyx_t_12 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 138, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
           if (__pyx_t_14) {
             __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_14); __pyx_t_14 = NULL;
@@ -3662,26 +3807,26 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
           __Pyx_INCREF(__pyx_v_master_dict);
           __Pyx_GIVEREF(__pyx_v_master_dict);
           PyTuple_SET_ITEM(__pyx_t_12, 2+__pyx_t_11, __pyx_v_master_dict);
-          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         }
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "onenewgraph_2.pyx":122
+        /* "onenewgraph_2.pyx":133
  * 		else:
  * 			print(chr, id)
  * 			for GT in ["1|0","0|1" ]:             # <<<<<<<<<<<<<<
  * 
- * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format(GT , chr, id)
+ * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC;  '''.format(GT , chr, id)
  */
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __pyx_L11:;
 
-    /* "onenewgraph_2.pyx":106
+    /* "onenewgraph_2.pyx":116
  * 		genders = clustering(ids)
  * 
  * 	for id in ids:             # <<<<<<<<<<<<<<
@@ -3692,16 +3837,16 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":132
+  /* "onenewgraph_2.pyx":142
  * 
- * 		#print(master_dict)
+ * 
  * 	f = open(chr + '_graph.json', 'w')             # <<<<<<<<<<<<<<
  * 	json.dump(master_dict, f)
  * 	f.close()
  */
-  __pyx_t_2 = PyNumber_Add(__pyx_v_chr, __pyx_kp_s_graph_json); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_v_chr, __pyx_kp_s_graph_json); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -3709,22 +3854,22 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_GIVEREF(__pyx_n_s_w);
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_w);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_f = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":133
- * 		#print(master_dict)
+  /* "onenewgraph_2.pyx":143
+ * 
  * 	f = open(chr + '_graph.json', 'w')
  * 	json.dump(master_dict, f)             # <<<<<<<<<<<<<<
  * 	f.close()
  * 	quit()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_json); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_json); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_dump); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_dump); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -3742,7 +3887,7 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_1)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_v_master_dict, __pyx_v_f};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else
@@ -3750,13 +3895,13 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_v_master_dict, __pyx_v_f};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else
   #endif
   {
-    __pyx_t_10 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_10 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -3767,20 +3912,20 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
     __Pyx_INCREF(__pyx_v_f);
     __Pyx_GIVEREF(__pyx_v_f);
     PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_11, __pyx_v_f);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":134
+  /* "onenewgraph_2.pyx":144
  * 	f = open(chr + '_graph.json', 'w')
  * 	json.dump(master_dict, f)
  * 	f.close()             # <<<<<<<<<<<<<<
  * 	quit()
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_close); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_close); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_10 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -3794,21 +3939,21 @@ static PyObject *__pyx_pf_13onenewgraph_2_4main(CYTHON_UNUSED PyObject *__pyx_se
   }
   __pyx_t_2 = (__pyx_t_10) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_10) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 134, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":135
+  /* "onenewgraph_2.pyx":145
  * 	json.dump(master_dict, f)
  * 	f.close()
  * 	quit()             # <<<<<<<<<<<<<<
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_quit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_quit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":68
+  /* "onenewgraph_2.pyx":78
  * 
  * #connect db
  * def main(str chr):             # <<<<<<<<<<<<<<
@@ -3941,6 +4086,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_item_number, __pyx_k_item_number, sizeof(__pyx_k_item_number), 0, 0, 1, 1},
+  {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
   {&__pyx_n_s_json, __pyx_k_json, sizeof(__pyx_k_json), 0, 0, 1, 1},
   {&__pyx_n_s_k, __pyx_k_k, sizeof(__pyx_k_k), 0, 0, 1, 1},
@@ -3959,6 +4105,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_male, __pyx_k_male, sizeof(__pyx_k_male), 0, 0, 1, 1},
   {&__pyx_n_s_master_dict, __pyx_k_master_dict, sizeof(__pyx_k_master_dict), 0, 0, 1, 1},
   {&__pyx_n_s_max_iter, __pyx_k_max_iter, sizeof(__pyx_k_max_iter), 0, 0, 1, 1},
+  {&__pyx_n_s_my_snps, __pyx_k_my_snps, sizeof(__pyx_k_my_snps), 0, 0, 1, 1},
   {&__pyx_n_s_myq, __pyx_k_myq, sizeof(__pyx_k_myq), 0, 0, 1, 1},
   {&__pyx_n_s_n_clusters, __pyx_k_n_clusters, sizeof(__pyx_k_n_clusters), 0, 0, 1, 1},
   {&__pyx_n_s_n_init, __pyx_k_n_init, sizeof(__pyx_k_n_init), 0, 0, 1, 1},
@@ -3968,6 +4115,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_onenewgraph_2, __pyx_k_onenewgraph_2, sizeof(__pyx_k_onenewgraph_2), 0, 0, 1, 1},
   {&__pyx_kp_s_onenewgraph_2_pyx, __pyx_k_onenewgraph_2_pyx, sizeof(__pyx_k_onenewgraph_2_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
+  {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_pos, __pyx_k_pos, sizeof(__pyx_k_pos), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_kp_s_proj_nobackup_sens2017106_krist, __pyx_k_proj_nobackup_sens2017106_krist, sizeof(__pyx_k_proj_nobackup_sens2017106_krist), 0, 0, 1, 0},
@@ -3978,11 +4126,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_random_state, __pyx_k_random_state, sizeof(__pyx_k_random_state), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_res, __pyx_k_res, sizeof(__pyx_k_res), 0, 0, 1, 1},
+  {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_skip, __pyx_k_skip, sizeof(__pyx_k_skip), 0, 0, 1, 1},
   {&__pyx_n_s_sklearn_cluster, __pyx_k_sklearn_cluster, sizeof(__pyx_k_sklearn_cluster), 0, 0, 1, 1},
+  {&__pyx_n_s_sorted_snps, __pyx_k_sorted_snps, sizeof(__pyx_k_sorted_snps), 0, 0, 1, 1},
+  {&__pyx_kp_s_source_home_kbilgrav_anaconda3_b, __pyx_k_source_home_kbilgrav_anaconda3_b, sizeof(__pyx_k_source_home_kbilgrav_anaconda3_b), 0, 0, 1, 0},
   {&__pyx_n_s_split, __pyx_k_split, sizeof(__pyx_k_split), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
+  {&__pyx_n_s_system, __pyx_k_system, sizeof(__pyx_k_system), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
   {&__pyx_n_s_var_list, __pyx_k_var_list, sizeof(__pyx_k_var_list), 0, 0, 1, 1},
@@ -3992,9 +4144,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 53, __pyx_L1_error)
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 132, __pyx_L1_error)
-  __pyx_builtin_quit = __Pyx_GetBuiltinName(__pyx_n_s_quit); if (!__pyx_builtin_quit) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_builtin_quit = __Pyx_GetBuiltinName(__pyx_n_s_quit); if (!__pyx_builtin_quit) __PYX_ERR(0, 145, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -4004,52 +4156,63 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "onenewgraph_2.pyx":122
+  /* "onenewgraph_2.pyx":133
  * 		else:
  * 			print(chr, id)
  * 			for GT in ["1|0","0|1" ]:             # <<<<<<<<<<<<<<
  * 
- * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3;  '''.format(GT , chr, id)
+ * 				q = '''SELECT chr, GROUP_CONCAT(pos, ';'), GROUP_CONCAT(alt, ';') FROM cleanblock WHERE (GT= '{}' OR GT = '1|1') AND chr = '{}' AND  id = '{}' GROUP BY PS HAVING COUNT(pos) >=3 ORDER BY GROUP_CONCAT(pos) ASC;  '''.format(GT , chr, id)
  */
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_kp_s_1_0, __pyx_kp_s_0_1); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_kp_s_1_0, __pyx_kp_s_0_1); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "onenewgraph_2.pyx":8
- * from sklearn.cluster import KMeans
+  /* "onenewgraph_2.pyx":11
+ * # distutils: language=c++
+ * 
+ * os.system('source /home/kbilgrav/anaconda3/bin/activate')             # <<<<<<<<<<<<<<
+ * 
+ * def clustering(id_list):
+ */
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_source_home_kbilgrav_anaconda3_b); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
+
+  /* "onenewgraph_2.pyx":13
+ * os.system('source /home/kbilgrav/anaconda3/bin/activate')
  * 
  * def clustering(id_list):             # <<<<<<<<<<<<<<
  * 	cdef dict labels = {}
  * 	cdef list var_list = []
  */
-  __pyx_tuple__4 = PyTuple_Pack(16, __pyx_n_s_id_list, __pyx_n_s_labels_2, __pyx_n_s_var_list, __pyx_n_s_id, __pyx_n_s_q, __pyx_n_s_varq, __pyx_n_s_alist, __pyx_n_s_n_clusters, __pyx_n_s_label_to_cluster, __pyx_n_s_db, __pyx_n_s_vars, __pyx_n_s_kmeans, __pyx_n_s_cluster, __pyx_n_s_i, __pyx_n_s_item_number, __pyx_n_s_cluster_id); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_onenewgraph_2_pyx, __pyx_n_s_clustering, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(16, __pyx_n_s_id_list, __pyx_n_s_labels_2, __pyx_n_s_var_list, __pyx_n_s_id, __pyx_n_s_q, __pyx_n_s_varq, __pyx_n_s_alist, __pyx_n_s_n_clusters, __pyx_n_s_label_to_cluster, __pyx_n_s_db, __pyx_n_s_vars, __pyx_n_s_kmeans, __pyx_n_s_cluster, __pyx_n_s_i, __pyx_n_s_item_number, __pyx_n_s_cluster_id); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_onenewgraph_2_pyx, __pyx_n_s_clustering, 13, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 13, __pyx_L1_error)
 
-  /* "onenewgraph_2.pyx":49
+  /* "onenewgraph_2.pyx":52
  * 	return label_to_cluster
  * 
  * def create_kmers(chr, qres, dict):             # <<<<<<<<<<<<<<
  * 	for res in qres:
  * 		pos = res[1].split(';')
  */
-  __pyx_tuple__6 = PyTuple_Pack(11, __pyx_n_s_chr, __pyx_n_s_qres, __pyx_n_s_dict, __pyx_n_s_res, __pyx_n_s_pos, __pyx_n_s_alt, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_k, __pyx_n_s_kmer_a, __pyx_n_s_kmer_b); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 49, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_onenewgraph_2_pyx, __pyx_n_s_create_kmers, 49, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(14, __pyx_n_s_chr, __pyx_n_s_qres, __pyx_n_s_dict, __pyx_n_s_res, __pyx_n_s_pos, __pyx_n_s_alt, __pyx_n_s_my_snps, __pyx_n_s_s, __pyx_n_s_sorted_snps, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_k, __pyx_n_s_kmer_a, __pyx_n_s_kmer_b); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(3, 0, 14, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_onenewgraph_2_pyx, __pyx_n_s_create_kmers, 52, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 52, __pyx_L1_error)
 
-  /* "onenewgraph_2.pyx":68
+  /* "onenewgraph_2.pyx":78
  * 
  * #connect db
  * def main(str chr):             # <<<<<<<<<<<<<<
  * 
  * 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
  */
-  __pyx_tuple__8 = PyTuple_Pack(23, __pyx_n_s_chr, __pyx_n_s_db, __pyx_n_s_start, __pyx_n_s_idq, __pyx_n_s_ids, __pyx_n_s_id_tuple, __pyx_n_s_master_dict, __pyx_n_s_kcon_time, __pyx_n_s_query2, __pyx_n_s_loop, __pyx_n_s_GT, __pyx_n_s_kmer_a, __pyx_n_s_kmer_b, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_k, __pyx_n_s_pos, __pyx_n_s_alt, __pyx_n_s_id, __pyx_n_s_genders, __pyx_n_s_q, __pyx_n_s_myq, __pyx_n_s_f); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 68, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 23, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_onenewgraph_2_pyx, __pyx_n_s_main_2, 68, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(23, __pyx_n_s_chr, __pyx_n_s_db, __pyx_n_s_start, __pyx_n_s_idq, __pyx_n_s_ids, __pyx_n_s_id_tuple, __pyx_n_s_master_dict, __pyx_n_s_kcon_time, __pyx_n_s_query2, __pyx_n_s_loop, __pyx_n_s_GT, __pyx_n_s_kmer_a, __pyx_n_s_kmer_b, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_k, __pyx_n_s_pos, __pyx_n_s_alt, __pyx_n_s_id, __pyx_n_s_genders, __pyx_n_s_q, __pyx_n_s_myq, __pyx_n_s_f); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 23, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_onenewgraph_2_pyx, __pyx_n_s_main_2, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -4058,6 +4221,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
+  __pyx_umethod_PyDict_Type_items.type = (PyObject*)&PyDict_Type;
   __pyx_umethod_PyDict_Type_keys.type = (PyObject*)&PyDict_Type;
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -4387,7 +4551,7 @@ if (!__Pyx_RefNanny) {
  * import time
  * import numpy as np             # <<<<<<<<<<<<<<
  * from sklearn.cluster import KMeans
- * 
+ * import os
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4398,8 +4562,8 @@ if (!__Pyx_RefNanny) {
  * import time
  * import numpy as np
  * from sklearn.cluster import KMeans             # <<<<<<<<<<<<<<
+ * import os
  * 
- * def clustering(id_list):
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4415,40 +4579,69 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":8
+  /* "onenewgraph_2.pyx":7
+ * import numpy as np
  * from sklearn.cluster import KMeans
+ * import os             # <<<<<<<<<<<<<<
+ * 
+ * # distutils: language=c++
+ */
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_os, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "onenewgraph_2.pyx":11
+ * # distutils: language=c++
+ * 
+ * os.system('source /home/kbilgrav/anaconda3/bin/activate')             # <<<<<<<<<<<<<<
+ * 
+ * def clustering(id_list):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_system); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "onenewgraph_2.pyx":13
+ * os.system('source /home/kbilgrav/anaconda3/bin/activate')
  * 
  * def clustering(id_list):             # <<<<<<<<<<<<<<
  * 	cdef dict labels = {}
  * 	cdef list var_list = []
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_13onenewgraph_2_1clustering, NULL, __pyx_n_s_onenewgraph_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_13onenewgraph_2_1clustering, NULL, __pyx_n_s_onenewgraph_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_clustering, __pyx_t_2) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_clustering, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":49
+  /* "onenewgraph_2.pyx":52
  * 	return label_to_cluster
  * 
  * def create_kmers(chr, qres, dict):             # <<<<<<<<<<<<<<
  * 	for res in qres:
  * 		pos = res[1].split(';')
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_13onenewgraph_2_3create_kmers, NULL, __pyx_n_s_onenewgraph_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_13onenewgraph_2_3create_kmers, NULL, __pyx_n_s_onenewgraph_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_create_kmers, __pyx_t_2) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_create_kmers, __pyx_t_2) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "onenewgraph_2.pyx":68
+  /* "onenewgraph_2.pyx":78
  * 
  * #connect db
  * def main(str chr):             # <<<<<<<<<<<<<<
  * 
  * 	db = database.DB('/proj/nobackup/sens2017106/kristine/hapmap/hapmap.db')
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_13onenewgraph_2_5main, NULL, __pyx_n_s_onenewgraph_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_13onenewgraph_2_5main, NULL, __pyx_n_s_onenewgraph_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_main_2, __pyx_t_2) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_main_2, __pyx_t_2) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "onenewgraph_2.pyx":1
@@ -5522,6 +5715,14 @@ invalid_keyword:
     #endif
 bad:
     return -1;
+}
+
+/* py_dict_items */
+static CYTHON_INLINE PyObject* __Pyx_PyDict_Items(PyObject* d) {
+    if (PY_MAJOR_VERSION >= 3)
+        return __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyDict_Type_items, d);
+    else
+        return PyDict_Items(d);
 }
 
 /* PyIntBinop */

@@ -1,7 +1,7 @@
 import sqlite3
 
 #connect to database
-#tedt
+
 
 class DB: 
 	def __init__(self, db):

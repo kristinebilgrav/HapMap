@@ -6,7 +6,7 @@ import argparse
 
 import database
 
-#input: 
+#input: phased variants file annnotated with vep
 
 #create database 
 
@@ -21,7 +21,7 @@ if 'haploblock' not in tables:
 else:
 	db.drop_index('pos')
 	db.drop_index('phaseset')
-
+	db.drop_index('chr_id_PS_pos_alt_GT')
 
 
 vcf_data = []
@@ -129,4 +129,4 @@ db.insert_many(vcf_data)
 #create index
 db.create_index(name ='phaseset', columns = '(PS, chr, pos, alt, id)')
 db.create_index(name ='pos', columns = '(chr, pos, PS, alt, id)')
-
+db.create_index(name = 'chr_id_PS_pos_alt_GT', columns = '(chr, id, PS, pos, alt, GT)')
