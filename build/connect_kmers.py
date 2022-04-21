@@ -10,8 +10,11 @@ import database
 f = open(sys.argv[1])
 my_vars = json.load(f)
 
+
+print('connecting blocks')
+
 output = open(sys.argv[2], 'w')
-#idoutput = open(sys.argv[2] + 'IDs.txt', 'w')
+idoutput = open(sys.argv[2] + 'IDs.txt', 'w')
 header = ['pathnumber', 'start', 'end', 'length', 'median', 'average']
 output.write('\t'.join(header) + '\n')
 
@@ -77,14 +80,14 @@ for chr in my_vars:
 			jsplit =j.split()
 
 			#search for ids with the kmer
-#			q = ''' SELECT id FROM cleanblock WHERE (chr = '{}' AND pos = '{}' AND alt='{}') INTERSECT SELECT id FROM cleanblock WHERE (chr = '{}' AND pos = '{}' AND alt='{}'); '''.format(chr, jsplit[1], jsplit[2], chr, jsplit[-2], jsplit[-1])
-#			varq = db.get_item(q) #list of tuples with id 
+			q = ''' SELECT id FROM cleanblock WHERE (chr = '{}' AND pos = '{}' AND alt='{}') INTERSECT SELECT id FROM cleanblock WHERE (chr = '{}' AND pos = '{}' AND alt='{}'); '''.format(chr, jsplit[1], jsplit[2], chr, jsplit[-2], jsplit[-1])
+			varq = db.get_item(q) #list of tuples with id 
 
 
 			#add all ids to pathid
-#			for res in varq:
-#				if res[0] not in pathid:
-#					pathid.append(res[0])
+			for res in varq:
+				if res[0] not in pathid:
+					pathid.append(res[0])
 
 
 			count = [my_vars[chr][k][j]]
@@ -121,7 +124,7 @@ for chr in my_vars:
 			#print('\t'.join(myout))
 			output.write('\t'.join(myout) + '\n')
 			output.write('\t'.join(path) + '\n')
-#			idoutput.write('\t'.join(pathid) + '\n')
+			idoutput.write('\t'.join(pathid) + '\n')
 			#print('writing output')
 
 print('done')

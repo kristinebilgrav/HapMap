@@ -56,7 +56,7 @@ def create_kmers(chr, qres, dict):
 
 		my_snps = {}
 		for s in range(0, len(pos)):
-			my_snps[pos[s]] = alt[s]
+			my_snps[int(pos[s])] = alt[s]
 
 		sorted_snps = sorted(my_snps.items())
 		for i in range(0, len(sorted_snps) -2):
@@ -64,8 +64,8 @@ def create_kmers(chr, qres, dict):
 			j = i+1
 			k = j+1
 
-			kmer_a="{} {} {} {} {} {}".format(chr, sorted_snps[i][0], sorted_snps[i][1], chr ,sorted_snps[j][0], sorted_snps[j][1])
-			kmer_b="{} {} {} {} {} {}".format(chr, sorted_snps[j][0], sorted_snps[j][1], chr , sorted_snps[k][0], sorted_snps[k][1])
+			kmer_a="{} {} {} {} {} {}".format(chr, str(sorted_snps[i][0]), sorted_snps[i][1], chr ,str(sorted_snps[j][0]), sorted_snps[j][1])
+			kmer_b="{} {} {} {} {} {}".format(chr, str(sorted_snps[j][0]), sorted_snps[j][1], chr , str(sorted_snps[k][0]), sorted_snps[k][1])
 			if kmer_a not in dict[chr]:
 				dict[chr][kmer_a] = {}
 	
