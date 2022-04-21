@@ -21,9 +21,7 @@ for res in db.query(q):
     median = statistics.median(allsnvs)
     mymin = min(allsnvs)
     mymax = max(allsnvs)
-#    if res[0] not in data_dict:
-#        data_dict[res[0]] = {}
-#        data_dict[res[0]][res[1]]=
+
     for v in range(0, len(allsnvs)-1):
         vnorm = (allsnvs[v]-mymin)/(mymax-mymin)
         newcount = (res[0], start[v], stop[v], vnorm)
