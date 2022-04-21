@@ -20,19 +20,17 @@ snvdict = {}
 
 #graph file
 for line in open(sys.argv[1]):
-	if line.startswith('start'):
+	if line.startswith('pathnumber'):
 		continue
 
 	count += 1
 	if count % 2 == 0:
 		path = line.rstrip('\n').split('\t')
-		for kmer in path:
+		for kmer in path[1:]:
 			k0 = ' '.join(kmer.split()[0:3])
 			k1 = ' '.join(kmer.split()[3:])
 			snvdict[k1] = 0
 			snvdict[k0] = 0
-
-
 
 #reference // 1kgp
 if 'gz' in sys.argv[2]:
@@ -54,21 +52,26 @@ for snv in opener(sys.argv[2], mode='rt'):
 	klist.append(snv.split('\t')[4])
 	k = ' '.join(klist)
 
+	#skip those not in graph
 	if k not in snvdict:
 		continue
 
-	
+	#look at gentotype
 	GTs = snv.split('GT\t')[-1]
+
 	GTcount = 0
 	nullnull = GTs.count('0|0')
 	snvcount = 2504 - nullnull	
-	GTcount += snvcount
 
+	#how many with variant
+	GTcount += snvcount
 	snvdict[k] = GTcount
 
+	#rare
 	if GTcount < 22:
 		raresnvs += 1
 
+	#common
 	else:
 		commonsnvs += 1
 		commonsnvamount.append(snvdict[k])
@@ -81,6 +84,7 @@ output = open(sys.argv[3], 'a')
 print('rare',raresnvs)
 print('common',commonsnvs)
 
+#average/median amount of people with the common variant
 average = sum(commonsnvamount)/len(commonsnvamount)
 mediancommon = statistics.median(commonsnvamount)
 
@@ -88,6 +92,7 @@ print('average', average)
 print('median', mediancommon)
 
 outputline = [str(chr), str(raresnvs), str(commonsnvs),str(average), str(mediancommon), str(len(snvdict)) ]
+print(outputline)
 output.write('\t'.join(outputline) + '\n')
 
 
