@@ -2,33 +2,45 @@
 #SBATCH -A sens2017106
 #SBATCH -p core
 #SBATCH -n 2
-#SBATCH -t 7-00:00:00
+#SBATCH -t 2-00:00:00
 #SBATCH -J happyHAP
 
 module load python3 sqlite bioinfo-tools pysam
 
-#$1 file with paths to all files
+#PATH=/proj/nobackup/sens2017106/kristine/hapmap
+
+#$1 file with paths to all files 
 #$2 chromosome
 
 #create DB (check scripts included)
 #python /proj/nobackup/sens2017106/kristine/hapmap/haploop.py $1
 
-#filter db
+#filter db 
 #python /proj/nobackup/sens2017106/kristine/hapmap/HapMap/cleandbfaster.py
 
-# ----------build---------- #
+# ----------build----------- #
 
 #create graph - give chr
 #source /home/kbilgrav/anaconda3/bin/activate
-#python /proj/nobackup/sens2017106/kristine/hapmap/HapMap/build/main.py $2
+#python /proj/nobackup/sens2017106/kristine/hapmap/HapMap/main.py $2 
 
-#connect graph
-#python /proj/nobackup/sens2017106/kristine/hapmap/HapMap/build/connect_kmers.py $2_graph.json $2_graph_connectedA.txt
+#connect graph 
+#python /proj/nobackup/sens2017106/kristine/hapmap/HapMap/build/connect_kmers.py $2_graph.json $2_graph_contigs.txt
 
 #connect bubbled paths
 ref=/proj/sens2017106/reference_material/fasta/human_g1k_v37.fasta.fai
-#connected=/proj/nobackup/sens2017106/kristine/hapmap/all_50stats.txt
-#python /proj/nobackup/sens2017106/kristine/hapmap/HapMap/build/connectbubbles.py $2_graph_connectedA.txt $ref $connected
+connected=/proj/nobackup/sens2017106/kristine/hapmap/all_n50stats.txt
+
+#mv /proj/nobackup/sens2017106/kristine/hapmap/$2_graph_connectedA.txt /proj/nobackup/sens2017106/kristine/hapmap/$2_graph_contigs.txt
+#mv /proj/nobackup/sens2017106/kristine/hapmap/$2_graph_connectedA.txtIDs.txt /proj/nobackup/sens2017106/kristine/hapmap/$2_graph_contigIDs.txt
+
+#python HapMap/build/connectbubbles.py $2_graph_contigs.txt $ref $2_graph_contigs_connections $connected
+
+#write to vcf 
+fasta=/proj/sens2017106/reference_material/fasta/human_g1k_v37.fasta
+#python HapMap/build/makeVCF.py $2_graph_contigs.txt $2_graph_contigs_connections.txt $2_graph.vcf $fasta
+
+# --------statistics-------#
 
 #statistics
 module load bioinfo-tools BEDTools
@@ -44,6 +56,10 @@ module load bioinfo-tools BEDTools
 #A=/proj/nobackup/sens2017106/kristine/hapmap/human_37_chr$2.bed
 #bedtools coverage -a $A -b $2_graph_connectedB.bed -d > $2_graph_base_coverage.bed
 
+
+#-------coverage-------#
+
+#genome coverage per 1MB bin
 #cat *_graph_connectedB.bed > all_graphs_connected.bed
 #bedtools sort -i all_graphs_connected.bed > all_graphs_connected_sorted.bed
 all_bed=all_graphs_connected_sorted.bed
@@ -51,20 +67,34 @@ MB=/proj/nobackup/sens2017106/kristine/hapmap/human.37.1MB.bed
 #bedtools coverage -a $MB -b all_graphs_connected_sorted.bed > all_graphs_connected_sorted_genomecov.bed
 
 #bedtools genomecov -bga -i $all_bed -g $ref > all_graphs_connected_sorted_genomecov.bed
+
 #sed -i -e 's/^/hs/' all_graphs_connected_sorted_genomecov.bed
+#awk -F "\t" 'OFS="\t" { print $1, $2 , $3 , $4 }' all_graphs_percontig_cov.bed  > all_graphs_percontig_cov2.bed
 
 
-# ----------filtering--analysis---------- #
 
+#coverage per contig bin
+#cat *_graph_connectedB_merged.bed > all_graphs_connectedB_merged.bed
+#bedtools sort -i all_graph_connectedB_merged.bed > all_graph_connectedB_merged_sorted.bed
+binfile=all_graph_connectedB_merged_sorted.bed
+covfile=all_graphs_connected_sorted.bed
+#bedtools coverage -a  -b all_graphs_connected_sorted.bed > all_graphs_connected_sorted_genomecov.bed
 
-#python /proj/nobackup/sens2017106/kristine/hapmap/HapMap/filtering_analysis/unfilt_database.py $MB
-#python /proj/nobackup/sens2017106/kristine/hapmap/HapMap/filtering_analysis/filt_database.py $MB
-#python3 /proj/nobackup/sens2017106/kristine/hapmap/HapMap/filtering_analysis/count_graph_variants.py $MB $2_graph.json
-#python3 /proj/nobackup/sens2017106/kristine/hapmap/HapMap/filtering_analysis/count_snv_connectedA.py $MB $2_graph_connectedA.txt
+#get the contig bin and snvs
 
-#python reorg_snv --
+#python3 /proj/nobackup/sens2017106/kristine/hapmap/HapMap/filtering_analysis/count_snv_connectedA.py $2_graph_connectedB_merged.bed $2_graph_connectedA.txt $2_graph_permerged_snvcount.txt
+#cat *_graph_permerged_snvcount.txt > all_graph_permerged_snvcount.txt
+#sed -i -e 's/^/hs/'
 
-# ------------genome--coverage-------------- #
+# ------filtering--------- #
+
+#check filtering
+#python3 $PATH/HapMap/filtering_analysis/count_graph_variants.py $MB $2_graph.json
+#python3 $PATH/HapMap/filtering_analysis/count_snv_connectedA.py $MB $2_graph_connectedA.txt
+#python HapMap/filtering_analysis/count_snv_DB.py $MB tabelname
+
+# ------ #
+
 
 #find genome coverage - using script
 #ref=/proj/sens2017106/reference_material/fasta/human_g1k_v37.fasta.fai
@@ -73,16 +103,26 @@ MB=/proj/nobackup/sens2017106/kristine/hapmap/human.37.1MB.bed
 #make bed file
 #python3 makebedfile.py $2_graph_counted.txt $2_graph_hbpos.bed
 
-
-# -----------match-------------- #
+# ------------matching------------- #
 
 #matching with HRC
 #module load bioinfo-tools HaplotypeReferenceConsortium/r1.1
-#HRC=$HRC_ROOT/HRC.r1-1.GRCh37.wgs.mac5.sites.vcf.gz
+#HRC=$HRC_ROOT/HRC.r1-1.GRCh37.wgs.mac5.sites.vcf.gz 
 
-#python3 /proj/nobackup/sens2017106/kristine/hapmap/HapMap/match_graph/matchpaths.py $2_graph_counted.txt $HRC
+#python3 /proj/nobackup/sens2017106/kristine/hapmap/matchpaths.py $2_graph_counted.txt $HRC
 
 #match with 1KGP
 #1KGP_phase3_paths.txt
-outputfile=/proj/nobackup/sens2017106/kristine/hapmap/graphmap1kgp.txt
-python3 /proj/nobackup/sens2017106/kristine/hapmap/HapMap/match_graph/matchpaths_1kgpphase3.py $1_graph_connectedA.txt $2 $outputfile
+#split to seperate files:
+#bcftools view -c1 -Oz -s $kgpsample -o $1
+
+#outputfile=/proj/nobackup/sens2017106/kristine/hapmap/graphmap1kgp.txt
+#python3 /proj/nobackup/sens2017106/kristine/hapmap/HapMap/matchpaths_1kgpphase3.py $1_graph_connectedA.txt $2 $outputfile
+
+#python3 HapMap/match_graph/matchpaths_block_multisamplevcf.py $1_graph_connectedA.txt $2 $1_connnected_kgp.txt
+
+module load bioinfo-tools BEDTools tabix bcftools
+bedtools sort -header  -i $1_graph.vcf | bgzip /dev/stdin -c > $1_graph_sort.vcf.gz
+tabix $1_graph_sort.vcf.gz
+bcftools isec $1_graph_sort.vcf.gz $2 -p $3_isec.out
+rm $3_isec.out/0001.vcf

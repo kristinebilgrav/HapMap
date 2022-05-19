@@ -5,7 +5,7 @@ import statistics
 #import os
 import pysam
 
-#match paths in graph with refrence panel
+#match paths in graph (file)  with refrence panel
 #needs pysam, python3
 #use refrence panel
 

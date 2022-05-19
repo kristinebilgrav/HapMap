@@ -14,7 +14,7 @@ for li in open(sys.argv[2]):
 	count += 1
 	#path stats lines
 	if count % 2 == 0:
-		kmers = li.split('\t')
+		kmers = li.rstrip('\n').split('\t')
 		for kmer in kmers[1:]:
 			poses = kmer.split()
 			chr=poses[0]
@@ -22,11 +22,14 @@ for li in open(sys.argv[2]):
 			if mypos in pos:
 				continue
 			pos.append(mypos)
+
 			mypos2 = int(poses[4])
 			if mypos2 in pos:
 				continue
 			pos.append(mypos2)
 pos=np.array(pos)
+output= open(sys.argv[3], 'w')
+
 
 #read bin file
 putit = []
@@ -43,23 +46,24 @@ for line in open(sys.argv[1]):
 	match = np.where(np.logical_and(pos>=start, pos<=end))
 	rangematch = np.where(match)[0]
 	putit.append((binchr, start, end, len(rangematch)))
+	output.write('\t'.join([str(binchr), str(start), str(end), str(len(rangematch))]) + '\n')
+#	print(binchr, start, end, len(rangematch))
 
-
-db = database.DB('misc_hapmap.db')
+#db = database.DB('misc_hapmap.db')
 
 #create table
-tables = db.search_table()
+#tables = db.search_table()
 
-if 'connectedA' not in tables:
-	print('create table connectedA')
-	info = ("CREATE TABLE IF NOT EXISTS connectedA (chr TEXT, start INTEGER, stop INTEGER, snvs INTEGER)")
-	db.create_table(info)
-	indx1 = '''CREATE INDEX connectedA_db_start_stop_snvs ON graph (chr, start, stop, snvs) '''
-	db.create_index_general(indx1)
+#if 'connectedA' not in tables:
+#	print('create table connectedA')
+#	info = ("CREATE TABLE IF NOT EXISTS connectedA (chr TEXT, start INTEGER, stop INTEGER, snvs INTEGER)")
+#	db.create_table(info)
+#	indx1 = '''CREATE INDEX connectedA_db_start_stop_snvs ON graph (chr, start, stop, snvs) '''
+#	db.create_index_general(indx1)
 
 
-ins = '''INSERT INTO connectedA VALUES (? , ?, ?, ?) '''
-db.insert_many_general(ins, putit)
+#ins = '''INSERT INTO connectedA VALUES (? , ?, ?, ?) '''
+#db.insert_many_general(ins, putit)
 
 
 

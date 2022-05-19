@@ -15,16 +15,13 @@ for ch in my_vars:
 	chr = str(ch)
 	for i in my_vars[chr]:
 		ia = int(i.split()[1])
-		if ia in pos:
-			continue
 		pos.append(ia)
 		for j in my_vars[chr][i]:
 			j = int(j.split()[1])
-			if j in pos:
-				continue
 			pos.append(j)
-		
-pos = np.array(pos)
+pos1=list(set(pos))		
+
+pos = np.array(pos1)
 
 #read bin file
 putit = []
@@ -38,9 +35,11 @@ for line in open(sys.argv[1]):
 	end = int(line[2])
 
 	#match arrays
-	match = np.where(np.logical_and(pos>=start, pos<=end))
-	rangematch = np.where(match)[0]
-	putit.append((binchr, start, end, len(rangematch)))
+#	match = np.where(np.logical_and(pos>=start, pos<=end))
+#	rangematch = np.where(match)[0]
+	match = np.count_nonzero((pos > start)&(pos < end))
+	putit.append((binchr, start, end, str(match)))
+
 
 db = database.DB('misc_hapmap.db')
 
