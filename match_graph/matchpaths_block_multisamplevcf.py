@@ -28,6 +28,22 @@ def count_GT(line, mysnvdict, snv):
 	return mysnvdict
 
 
+
+
+#tabix
+f = pysam.TabixFile(sys.argv[1])
+
+def fetch_region_tabix(chr, s, e):
+	reads = f.fetch(chr, s, e)
+
+	count = 0
+	for read in reads:
+		count += 1
+
+	return count
+
+
+
 def match_withblock(bdict, sampledict):
 	for snv in sampledict:
 		for pth in bdict:
@@ -38,9 +54,11 @@ def match_withblock(bdict, sampledict):
 
 	return bdict
 
-#// vcf file
+# vcf file
+#also possible to use tabix and extract regions in 1kgp data
 if 'gz' in sys.argv[2]:
 	opener = gz.open
+	
 else: 
 	opener= open
 
@@ -51,7 +69,7 @@ commonsnvs = 0
 commonsnvamount = []
 
 allsnvs = 0
-snvdict = {'12 92809294 C':50, '12 60199765 A':10}
+snvdict = {}
 for snv in opener(sys.argv[2], mode='rt'):
 	if snv.startswith('#'):
 		continue
@@ -107,7 +125,7 @@ for line in open(sys.argv[1]):
 
 #match with block
 #matching_dict = {}
-#match_withblock(blockdict, kgpsnvs)
+#match_withblock(blockdict, snvdict)
 
 
 #output = open(sys.argv[3], 'w')
@@ -126,7 +144,7 @@ for pth in blockdict:
 	pcommon = (len(original)-nrare)/len(original)
 
 
-
+	print([pth, str(coverage), str(prare), str(pcommon)])
 #	output.write('\t'.join([pth, str(coverage), str(prare), str(pcommon)]) + '\n')
 
 	#if pcommon > 0.8:
