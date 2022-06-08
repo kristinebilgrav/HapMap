@@ -13,6 +13,7 @@ create matrix with comparion of each individual against each other
 #2 list of files to check
 #3 output 
 
+#finds variants in given file
 alt_dict = {}
 total = 0
 for inp in open(sys.argv[1]):
@@ -28,12 +29,13 @@ for inp in open(sys.argv[1]):
 	alt_dict[pos].append(alt)
 
 
+#finds varians in all givne files
 id_count= {}
 for file in open(sys.argv[2]):
 	file = file.strip('\n')
 
 	id = file.split('/')[-2].split('.')[0]
-	id_count[id] = 0
+	id_count[id] = []
 
 	chr = file.split('/')[-2].split('.')[1]
 
@@ -45,24 +47,32 @@ for file in open(sys.argv[2]):
 		ialt = line.split('\t')[4]
 		if ipos in alt_dict:
 			if ialt in alt_dict[ipos]:
-				id_count[id] += 1
+				if pos not in id_count[id]:
+					id_count[id].append(ipos)
 
+
+#compare using numpy and output jaccard distance
 output = open(sys.argv[3], 'w')
 header = ['id']
 rows={}
 all = []
 for id in id_count:
 	id1 = id
-	value1 = id_count[id]
+	values1 = set(id_count[id])
 	header.append(id1)
-	for i in range(0, len(id_count.keys())):
-		id2 = list(id_count.keys())[i]
+#	for i in range(0, len(id_count.keys())):
+
+	for id2 in id_count:
+#		id2 = list(id_count.keys())[i]
 		if id2 not in rows:
 			rows[id2] = []
-		value2 = list(id_count.values())[i]
-		incommon = sorted([value1, value2])[0]
-		jacc =  incommon/(value1 + value2 - incommon)
+#		values2 = list(id_count.values())[i]
+		values2 = id_count[id2]
+#		incommon = sorted([value1, values2])[0]
+		incommon = len(list(values1.intersection(values2)))
+		jacc =  incommon/(len(values1) + len(values2) - incommon)
 		rows[id2].append(jacc)
+#		print(id1, id2, incommon, jacc)
 		all.append(jacc)
 
 output.write('\t'.join(header) + '\n')
