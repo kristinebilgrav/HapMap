@@ -56,6 +56,10 @@ module load bioinfo-tools BEDTools
 #A=/proj/nobackup/sens2017106/kristine/hapmap/human_37_chr$2.bed
 #bedtools coverage -a $A -b $2_graph_connectedB.bed -d > $2_graph_base_coverage.bed
 
+#Switch Error Rate
+ser_file=/proj/nobackup/sens2017106/kristine/hapmap/LR_SER.txt
+python HapMap/statistics/switcherror.py $1 $ser_file
+
 
 #-------coverage-------#
 
@@ -122,7 +126,19 @@ covfile=all_graphs_connected_sorted.bed
 #python3 HapMap/match_graph/matchpaths_block_multisamplevcf.py $1_graph_connectedA.txt $2 $1_connnected_kgp.txt
 
 module load bioinfo-tools BEDTools tabix bcftools
-bedtools sort -header  -i $1_graph.vcf | bgzip /dev/stdin -c > $1_graph_sort.vcf.gz
-tabix $1_graph_sort.vcf.gz
-bcftools isec $1_graph_sort.vcf.gz $2 -p $3_isec.out
-rm $3_isec.out/0001.vcf
+#bedtools sort -header  -i $2 | bgzip /dev/stdin -c > $2
+#tabix $1_graph_sort.vcf.gz
+#tabix $2.gz
+
+#bcftools isec $1_graph_sort.vcf.gz $2 -p $3.isec.out
+#rm $3.isec.out/0001.vcf
+#rm $3.isec.out/0003.vcf
+#rm $3.isec.out/sites.txt
+
+
+#python HapMap/match_graph/matchanalysis.py paths.text chr_path_cov.txt
+#python HapMap/match_graph/matchjaccard.py  14_graph.vcf chr14_random_isec.txt chr14_random_isec_002.txt
+
+
+# ---------annotation-----------#
+#sbatch VEP.sh $1_graph_sort.vcf.gz $1_graph_sort_annotated.vcf
