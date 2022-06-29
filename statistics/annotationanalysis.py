@@ -1,9 +1,17 @@
+
 import sys
 
-#1 vep annotated file
+"""
+performs analysis of annotated graph
+"""
 
 def find_pathnumber(line):
-	#several paths in one
+
+	"""
+	one SNP can be involved in several paths.
+	function finds all numbers and connects with which kmer the SNP has
+	"""
+
 	pathdict= {}
 	paths = line.rstrip('\n').split('PATH=')[1:]
 
@@ -20,23 +28,81 @@ def find_pathnumber(line):
 	return pathdict
 
 
-def identify_exons(line):
-	ananno = line.rstrip('\n').split('CSQ=')[-1].split(',')
-	for an i ananno:
-		exons = an.split('|')[-2].split('&')
-		if len(exons) > 0:
-			for exon in exons:
-				if exon not in exon_to_path:
-					exon_to_path[exon] = {}
+def identify_effect(line, mydict):
+	'''
+	finds consequence or type of SNP - identified by VEP
+	'''
 
-				thesepaths = find_pathnumber(line)
+	vepinfo = line.rstrip('\n').split('CSQ=')[-1].split(',')
+	thesepaths = find_pathnumber(line)
+	for vep in vepinfo:
+		biotype = vep.split('|')[7]
+		consequence = vep.split('|')[1]
+		interest = biotype
 
-				for pathnumber in thesepaths:
-					if pathnumber not in exon_to_path[exon]:
-						exon_to_path[exon][pathnumber] = []
-					exon_to_path[exon][pathnumber].append(thesepaths[pathnumber])
+		if len(interest) < 1:
+			continue
+
+		if interest not in mydict:
+			mydict[interest] = 0
+
+		mydict[interest] += 1
+
+	#	for pathnumber in thesepaths:
+	#		if pathnumber not in mydict[interest]:
+	#			mydict[interest][pathnumber] = []
+	#		mydict[interest][pathnumber].append(thesepaths[pathnumber])
+
+	return mydict
+
+def identify_exons(line, mydict):
+	"""
+	finds exons in the particular SNP
+	"""
 
 
+	vep = line.rstrip('\n').split('CSQ=')[-1].split(',')
+	for an in vep:
+		exons = list(set(an.split('|')[-2].split('&') ))
+
+		if len(exons) < 1:
+			continue
+
+		thesepaths = find_pathnumber(line)
+		for exon in exons:
+			if exon not in mydict:
+				mydict[exon] = {}
+
+
+			for pathnumber in thesepaths:
+				if pathnumber not in mydict[exon]:
+					mydict[exon][pathnumber] = []
+				mydict[exon][pathnumber].append(thesepaths[pathnumber])
+
+	return mydict
+
+def loop_dictionary(mydict, total):
+
+	"""
+	loop through dictionary and print 
+	"""
+
+	output = open(sys.argv[2], 'w')
+	for t in mydict:
+	#	for pn in mydict[t]:
+	#		path_length = int(sorted(mydict[t][pn])[-1].split('/')[-1]) + 1
+
+	#		coverage = len(mydict[t][pn])/path_length
+	#		if coverage > 1.0:
+	#			print(pn, mydict[t][pn])
+	#			coverage = 1.0
+		coverage = mydict[t]/total
+		lst= [chr, t, str(mydict[t]), str(coverage)]
+		output.write('\t'.join(lst) + '\n')
+
+
+
+## main
 type_to_path = {}
 exon_to_path= {}
 tf_to_path= {}
@@ -48,31 +114,16 @@ for line in open(sys.argv[1]):
 
 	chr = line.split('\t')[0]
 
-	vepinfo = line.rstrip('\n').split('CSQ=')[-1].split(',')
 	total += 1
-	for vep in vepinfo:
-		type = vep.split('|')[7]
-		consequence = vep.split('|')[1]
-		interest = type
-		if len(interest) > 1:
-			if interest not in type_to_path:
-				type_to_path[interest] = {}
 
-			thesepaths = find_pathnumber(line)
-
-			for pathnumber in thesepaths:
-				if pathnumber not in type_to_path[interest]:
-					type_to_path[interest][pathnumber] = []
-				#add kmer to pathnumber
-				type_to_path[interest][pathnumber].append(thesepaths[pathnumber])
-
-		tf = vep.split('|')[-1]
-
+	identify_effect(line, type_to_path)
+	identify_exons(line, exon_to_path)
 
 
 print('total', total)
-for t in type_to_path:
-	for pn in type_to_path[t]:
-		print(chr, t, pn,  type_to_path[t][pn])
 
-print(exon_to_path)
+types = loop_dictionary(type_to_path, total)
+
+#exons = loop_dictionary(exon_to_path)
+#print(exons)
+#print(list(set(exon_to_path.keys())))
